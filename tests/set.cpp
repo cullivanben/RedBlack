@@ -1,5 +1,5 @@
-#include "../BCTreeSet.h"
-#include "../SetNode.h"
+#include "../headers/BCTreeSet.h"
+#include "../headers/SetNode.h"
 #include <vector>
 #include <iostream>
 #include <string>

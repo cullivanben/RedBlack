@@ -1,0 +1,35 @@
+#include "SetNode.h"
+#include <vector>
+#include <deque>
+#include <tuple>
+
+#ifndef BC_TREE_SET
+#define BC_TREE_SET
+
+// this template class uses a red black tree to implement a set
+template<typename T>
+class BCTreeSet {
+    SetNode<T>* root; 
+    long long s; 
+
+    // private helper methods
+    void insertRestore(SetNode<T>* curr);
+    SetNode<T>* rotateLeft(SetNode<T>* curr, SetNode<T>* parent);
+    SetNode<T>* rotateRight(SetNode<T>* curr, SetNode<T>* parent);
+    void recolor(SetNode<T>* curr, bool color);  
+    void inorderHelp(SetNode<T>* curr, std::vector<SetNode<T>*>& arr);
+
+    public:
+        BCTreeSet();
+        void add(T value);
+        void remove(T value);
+        bool contains(T value);
+        bool isEmpty();
+        long long size();
+        std::vector<SetNode<T>*> inorder();
+        std::vector<std::vector<SetNode<T>*>> levelOrder();
+};
+// include the source file so that it is accessible to the compiler
+#include "../sources/BCTreeSet.cpp"
+
+#endif

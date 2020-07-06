@@ -1,73 +1,51 @@
-#include "SetNode.h"
+#include "../headers/BCTreeMap.h"
+#include "../headers/MapNode.h"
 #include <vector>
 #include <deque>
 #include <tuple>
 
-#ifndef BC_TREE_SET
-#define BC_TREE_SET
 
-// this template class uses a red black tree to implement a set
-template<typename T>
-class BCTreeSet {
-    SetNode<T>* root; 
-    long long s; 
-
-    // private helper methods
-    void insertRestore(SetNode<T>* curr);
-    SetNode<T>* rotateLeft(SetNode<T>* curr, SetNode<T>* parent);
-    SetNode<T>* rotateRight(SetNode<T>* curr, SetNode<T>* parent);
-    void recolor(SetNode<T>* curr, bool color);  
-    void inorderHelp(SetNode<T>* curr, std::vector<SetNode<T>*>& arr);
-
-    public:
-        BCTreeSet();
-        void add(T value);
-        void remove(T value);
-        bool contains(T value);
-        bool isEmpty();
-        long long size();
-        std::vector<SetNode<T>*> inorder();
-        std::vector<std::vector<SetNode<T>*>> levelOrder();
-};
-
-// public constructor for the set
-template<typename T> 
-BCTreeSet<T>::BCTreeSet() {
+// public constructor
+template<typename T1, typename T2>
+BCTreeMap<T1, T2>::BCTreeMap() {
     root = 0;
     s = 0;
 }
 
-// method to add a value to the set
+// method to add a key-value pair to the map
 // O(log(n)) time
 // O(1) space
-template<typename T> 
-void BCTreeSet<T>::add(T value) {
-    // the case where this is the first node to be inserted
+template<typename T1, typename T2>
+void BCTreeMap<T1, T2>::put(T1 key, T2 value) {
+    // if this is the first node to be inserted
     if (!root) {
-        root = new SetNode<T>(value, 1, 0, 0, 0);
+        root = new MapNode<T1, T2>(key, value, 1, 0, 0, 0);
         s = 1;
         return;
     }
     // perform normal bst insertion
-    SetNode<T>* curr = root;
+    MapNode<T1, T2>* curr = root;
     while (1) {
-        // if this value is already in the set, do nothing and return
-        if (value == curr->value) return;
-        // if the value is less than the value of this node, move left
-        if (value < curr->value) {
+        // if this key is already present in the map, update its value and return
+        if (key == curr->key) {
+            curr->value = value;
+            return;
+        }
+        // if the key is less than the key of this node, move left
+        if (key < curr->key) {
             if (curr->left) curr = curr->left;
             else {
-                curr->left = new SetNode<T>(value, 0, curr, 0, 0);
+                curr->left = new MapNode<T1, T2>(key, value, 0, curr, 0, 0);
                 curr = curr->left;
                 s++;
                 break;
             }
-        } 
-        // if the value is greater than the value of this node, move right
+        }
+        // if the key is greater than the key of this node, move right
         else {
             if (curr->right) curr = curr->right;
             else {
-                curr->right = new SetNode<T>(value, 0, curr, 0, 0);
+                curr->right = new MapNode<T1, T2>(key, value, 0, curr, 0, 0);
                 curr = curr->right;
                 s++;
                 break;
@@ -79,31 +57,32 @@ void BCTreeSet<T>::add(T value) {
 }
 
 // helper method for restoring the red black properties upon insertion
-// O(1) time
+// O(log(n)) time (because it is recursive, a single execution of this function only takes O(1) time)
 // O(1) space
-template<typename T>
-void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
-    // the parent node of the current node
-    SetNode<T>* parent = curr->parent;
+template<typename T1, typename T2> 
+void BCTreeMap<T1, T2>::insertRestore(MapNode<T1, T2>* curr) {
+    // the parent of the current node
+    MapNode<T1, T2>* parent = curr->parent;
     // if the current node is the root
     if (!parent) {
         // set the root to black
-        curr->black = 1;
+        curr->black = 1; 
         return;
     }
-    // if the parent is black nothing needs to be done
+    // if the parent is black, nothing needs to be done
     else if (parent->black) return;
 
-    // the grandparent node of the current node
-    SetNode<T>* grand = parent->parent;
+    // the grandparent of the current node
+    MapNode<T1, T2>* grand = parent->parent;
     // if there is no grandparent node then this node is a child of the root
     if (!grand) {
         // ensure that the root is black
         parent->black = 1;
         return;
     }
+
     // whether this node's parent is the left child of the grandparent
-    bool left = parent->value < grand->value;
+    bool left = parent->key < grand->key;
 
     if (left) {
         // if there is an uncle node and it is red
@@ -114,7 +93,7 @@ void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
         // the uncle node must be either null or black
         else {
             // perform a pre rotation if one is needed
-            if (parent->value < curr->value) parent = rotateLeft(curr, parent);
+            if (parent->key < curr->key) parent = rotateLeft(curr, parent);
             // rotate and recolor
             rotateRight(parent, grand);
             recolor(parent, 1);
@@ -127,8 +106,8 @@ void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
         }
         // the uncle node must be either null or black
         else {
-            // perform a pre rotation if one is needed
-            if (curr->value < parent->value) parent = rotateRight(curr, parent);
+            // performe a pre rotation if one is needed
+            if (curr->key < parent->key) parent = rotateRight(curr, parent);
             // rotate and recolor
             rotateLeft(parent, grand);
             recolor(parent, 1);
@@ -139,14 +118,14 @@ void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
 // helper method to perform a left rotation
 // O(1) time
 // O(1) space
-template<typename T>
-SetNode<T>* BCTreeSet<T>::rotateLeft(SetNode<T>* curr, SetNode<T>* parent) {
+template<typename T1, typename T2> 
+MapNode<T1, T2>* BCTreeMap<T1, T2>::rotateLeft(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent) {
     // set the parent node as the parent of the current node's left child if it exists
     if (curr->left) curr->left->parent = parent;
     // if the parent is not the root
     if (parent->parent) {
         // if the parent is the left child of its parent
-        if (parent->value < parent->parent->value) parent->parent->left = curr;
+        if (parent->key < parent->parent->key) parent->parent->left = curr;
         // if the parent is the right child of its parent
         else parent->parent->right = curr;
     } 
@@ -167,14 +146,14 @@ SetNode<T>* BCTreeSet<T>::rotateLeft(SetNode<T>* curr, SetNode<T>* parent) {
 // helper method to perform a right rotation
 // O(1) time 
 // O(1) space
-template<typename T> 
-SetNode<T>* BCTreeSet<T>::rotateRight(SetNode<T>* curr, SetNode<T>* parent) {
+template<typename T1, typename T2> 
+MapNode<T1, T2>* BCTreeMap<T1, T2>::rotateRight(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent) {
     // set the parent node as the parent of the current node's right child if it exists
     if (curr->right) curr->right->parent = parent;
     // if the parent node is not the root
     if (parent->parent) {
         // if the parent is the left child of its parent node
-        if (parent->value < parent->parent->value) parent->parent->left = curr;
+        if (parent->key < parent->parent->key) parent->parent->left = curr;
         // if the parent is the right child of its parent node
         else parent->parent->right = curr;
     }
@@ -195,56 +174,56 @@ SetNode<T>* BCTreeSet<T>::rotateRight(SetNode<T>* curr, SetNode<T>* parent) {
 // helper method to set the current node to the specified color and its children nodes to the other color
 // O(1) time
 // O(1) space
-template<typename T>
-void BCTreeSet<T>::recolor(SetNode<T>* curr, bool color) {
+template<typename T1, typename T2>
+void BCTreeMap<T1, T2>::recolor(MapNode<T1, T2>* curr, bool color) {
     curr->black = color;
     if (curr->left) curr->left->black = !color;
     if (curr->right) curr->right->black = !color;
 }
 
-// method to remove a value from the set
+// method to remove a key value pair from the map
 // O(log(n)) time
 // O(1) space
-template<typename T> 
-void BCTreeSet<T>::remove(T value) {
+template<typename T1, typename T2>
+void BCTreeMap<T1, T2>::remove(T1 key) {
     if (!root) return;
-}
+} 
 
-// method to check if the set contains a value
-// O(log(n)) time
+// method to check if the map contains a certain key
+// O(1) time
 // O(1) space
-template<typename T>
-bool BCTreeSet<T>::contains(T value) {
-    SetNode<T>* curr = root;
+template<typename T1, typename T2>
+bool BCTreeMap<T1, T2>::containsKey(T1 key) {
+    MapNode<T1, T2>* curr = root;
     while (curr) {
-        if (curr->value == value) return true;
-        if (value < curr->value) curr = curr->left;
+        if (curr->key == key) return true;
+        if (key < curr->key) curr = curr->left;
         else curr = curr->right;
     }
     return false;
 }
 
-// method to check if the set is empty
+// method to check if the map is empty
 // O(1) time
 // O(1) space
-template<typename T> 
-bool BCTreeSet<T>::isEmpty() {
+template<typename T1, typename T2>
+bool BCTreeMap<T1, T2>::isEmpty() {
     return !root;
 }
 
-// method to check the size of the set
+// method to check the number of key-value pairs in the map
 // O(1) time
 // O(1) space
-template<typename T>
-long long BCTreeSet<T>::size() {
+template<typename T1, typename T2>
+long long BCTreeMap<T1, T2>::size() {
     return s;
 }
 
 // helper method for the inorder traversal
 // O(1) time
 // O(1) space
-template<typename T> 
-void BCTreeSet<T>::inorderHelp(SetNode<T>* curr, std::vector<SetNode<T>*>& arr) {
+template<typename T1, typename T2>
+void inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr) {
     if (curr->left) inorderHelp(curr->left, arr);
     arr.push_back(curr);
     if (curr->right) inorderHelp(curr->right, arr);
@@ -253,10 +232,10 @@ void BCTreeSet<T>::inorderHelp(SetNode<T>* curr, std::vector<SetNode<T>*>& arr) 
 // method to perform an inorder traversal and return a vector of all the nodes in sorted order
 // O(n) time
 // O(n) space
-template<typename T>
-std::vector<SetNode<T>*> BCTreeSet<T>::inorder() {
+template<typename T1, typename T2>
+std::vector<MapNode<T1, T2>*> BCTreeMap<T1, T2>::inorder() {
     if (!root) return {};
-    std::vector<std::string> arr;
+    std::vector<MapNode<T1, T2>*> arr;
     arr.reserve(s);
     inorderHelp(root, arr);
     return arr;
@@ -265,24 +244,23 @@ std::vector<SetNode<T>*> BCTreeSet<T>::inorder() {
 // method to perform a level order traversal and return a vector consisting of vectors of all the levels
 // O(n) time
 // O(n) space
-template<typename T>
-std::vector<std::vector<SetNode<T>*>> BCTreeSet<T>::levelOrder() {
+template<typename T1, typename T2>
+std::vector<std::vector<MapNode<T1, T2>*>> BCTreeMap<T1, T2>::levelOrder() {
     if (!root) return {};
-    std::vector<std::vector<SetNode<T>*>> arr;
-    std::deque<std::tuple<SetNode<T>*, long long>> d;
+    std::vector<std::vector<MapNode<T1, T2>*>> arr;
+    arr.reserve(s);
+    std::deque<std::tuple<MapNode<T1, T2>*, long long>> d;
     // initialize the deque with only the root node
     d.push_back(std::make_tuple(root, 0));
     while (d.size()) {
-        std::tuple<SetNode<T>*, long long> curr = d.front();
+        std::tuple<MapNode<T1, T2>*, long long> curr = d.front();
         d.pop_front();
         // add this node's info to the array corresponding to this node's level
         if (arr.size() <= std::get<1>(curr)) arr.push_back({});
         arr[std::get<1>(curr)].push_back(std::get<0>(curr));
-        // add the child nodes to the deque if they exist
+         // add the child nodes to the deque if they exist
         if (std::get<0>(curr)->left) d.push_back(std::make_tuple(std::get<0>(curr)->left, std::get<1>(curr)+1));
         if (std::get<0>(curr)->right) d.push_back(std::make_tuple(std::get<0>(curr)->right, std::get<1>(curr)+1));
     }
     return arr;
 }
-
-#endif

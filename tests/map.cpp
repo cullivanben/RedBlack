@@ -1,5 +1,5 @@
-#include "../BCTreeMap.h"
-#include "../MapNode.h"
+#include "../headers/BCTreeMap.h"
+#include "../headers/MapNode.h"
 #include <iostream>
 #include <vector>
 #include <string>
