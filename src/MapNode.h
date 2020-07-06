@@ -6,10 +6,10 @@ struct MapNode {
     T1 key;         
     T2 value;
     bool black;  
-    MapNode* parent;
-    MapNode* left;  
-    MapNode* right;      
-    MapNode(T1 key, T2 value, bool black, MapNode* parent, MapNode* left, MapNode* right) {
+    MapNode<T1, T2>* parent;
+    MapNode<T1, T2>* left;  
+    MapNode<T1, T2>* right;      
+    MapNode(T1 key, T2 value, bool black, MapNode<T1, T2>* parent, MapNode<T1, T2>* left, MapNode<T1, T2>* right) {
         this->key = key;
         this->value = value;
         this->black = black;

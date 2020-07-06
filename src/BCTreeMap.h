@@ -1,4 +1,9 @@
 #include "MapNode.h"
+#include <vector>
+#include <deque>
+#include <tuple>
+#include <iostream>
+
 
 #ifndef BC_TREE_MAP
 #define BC_TREE_MAP
@@ -14,6 +19,7 @@ class BCTreeMap {
     MapNode<T1, T2>* rotateLeft(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent);
     MapNode<T1, T2>* rotateRight(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent);
     void recolor(MapNode<T1, T2>* curr, bool color);
+    void inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr);
 
     public:
         BCTreeMap();
@@ -22,6 +28,8 @@ class BCTreeMap {
         bool containsKey(T1 key);
         bool isEmpty();
         long long size();
+        std::vector<MapNode<T1, T2>*> inorder();
+        std::vector<std::vector<MapNode<T1, T2>*>> levelOrder();
 };
 
 // public constructor
@@ -40,14 +48,16 @@ void BCTreeMap<T1, T2>::put(T1 key, T2 value) {
         s = 1;
         return;
     }
-
     // perform normal bst insertion
     MapNode<T1, T2>* curr = root;
     while (1) {
-        // if this key is already present in the map, do nothing and return
-        if (key == curr->key) return;
+        // if this key is already present in the map, update its value and return
+        if (key == curr->key) {
+            curr->value = value;
+            return;
+        }
         // if the key is less than the key of this node, move left
-        if (key < curr->value) {
+        if (key < curr->key) {
             if (curr->left) curr = curr->left;
             else {
                 curr->left = new MapNode<T1, T2>(key, value, 0, curr, 0, 0);
@@ -60,20 +70,26 @@ void BCTreeMap<T1, T2>::put(T1 key, T2 value) {
         else {
             if (curr->right) curr = curr->right;
             else {
+                std::cout << "adding curr:" << key << "\n";
                 curr->right = new MapNode<T1, T2>(key, value, 0, curr, 0, 0);
                 curr = curr->right;
                 s++;
                 break;
             }
         }
-
-        // restore the red black properties of the tree
-        insertRestore(curr);
     }
+    // restore the red black properties of the tree
+    insertRestore(curr);
 }
 
+// helper method for restoring the red black properties upon insertion
+// O(1) time
+// O(1) space
 template<typename T1, typename T2> 
 void BCTreeMap<T1, T2>::insertRestore(MapNode<T1, T2>* curr) {
+
+    std::cout << "restoring current:" << curr->key << "\n";
+
     // the parent of the current node
     MapNode<T1, T2>* parent = curr->parent;
     // if the current node is the root
@@ -108,7 +124,7 @@ void BCTreeMap<T1, T2>::insertRestore(MapNode<T1, T2>* curr) {
             // perform a pre rotation if one is needed
             if (parent->key < curr->key) parent = rotateLeft(curr, parent);
             // rotate and recolor
-            parent = rotateRight(parent, grand);
+            rotateRight(parent, grand);
             recolor(parent, 1);
         }
     } else {
@@ -120,14 +136,18 @@ void BCTreeMap<T1, T2>::insertRestore(MapNode<T1, T2>* curr) {
         // the uncle node must be either null or black
         else {
             // performe a pre rotation if one is needed
-            if (curr->value < arent->value) parent = rotateRight(curr, parent);
+            if (curr->key < parent->key) parent = rotateRight(curr, parent);
             // rotate and recolor
-            parent = rotateLeft(parent, grand);
+            std::cout << "rotate\n";
+            rotateLeft(parent, grand);
             recolor(parent, 1);
         }
     }
 }
 
+// helper method to perform a left rotation
+// O(1) time
+// O(1) space
 template<typename T1, typename T2> 
 MapNode<T1, T2>* BCTreeMap<T1, T2>::rotateLeft(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent) {
     // set the parent node as the parent of the current node's left child if it exists
@@ -153,6 +173,9 @@ MapNode<T1, T2>* BCTreeMap<T1, T2>::rotateLeft(MapNode<T1, T2>* curr, MapNode<T1
     return curr;
 }
 
+// helper method to perform a right rotation
+// O(1) time 
+// O(1) space
 template<typename T1, typename T2> 
 MapNode<T1, T2>* BCTreeMap<T1, T2>::rotateRight(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent) {
     // set the parent node as the parent of the current node's right child if it exists
@@ -191,20 +214,18 @@ void BCTreeMap<T1, T2>::recolor(MapNode<T1, T2>* curr, bool color) {
 // method to remove a key value pair from the map
 template<typename T1, typename T2>
 void BCTreeMap<T1, T2>::remove(T1 key) {
-
-}
+    if (!root) return;
+} 
 
 // method to check if the map contains a certain key
 template<typename T1, typename T2>
 bool BCTreeMap<T1, T2>::containsKey(T1 key) {
-    MapNode* curr = root;
-
+    MapNode<T1, T2>* curr = root;
     while (curr) {
         if (curr->key == key) return true;
         if (key < curr->key) curr = curr->left;
         else curr = curr->right;
     }
-
     return false;
 }
 
@@ -218,6 +239,52 @@ bool BCTreeMap<T1, T2>::isEmpty() {
 template<typename T1, typename T2>
 long long BCTreeMap<T1, T2>::size() {
     return s;
+}
+
+// helper method for the inorder traversal
+// O(1) time
+// O(1) space
+template<typename T1, typename T2>
+void inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr) {
+    if (curr->left) inorderHelp(curr->left, arr);
+    arr.push_back(curr);
+    if (curr->right) inorderHelp(curr->right, arr);
+}
+
+// method to perform an inorder traversal and return a vector of all the nodes in sorted order
+// O(n) time
+// O(n) space
+template<typename T1, typename T2>
+std::vector<MapNode<T1, T2>*> BCTreeMap<T1, T2>::inorder() {
+    if (!root) return {};
+    std::vector<MapNode<T1, T2>*> arr;
+    arr.reserve(s);
+    inorderHelp(root, arr);
+    return arr;
+}
+
+// method to perform a level order traversal and return a vector consisting of vectors of all the levels
+// O(n) time
+// O(n) space
+template<typename T1, typename T2>
+std::vector<std::vector<MapNode<T1, T2>*>> BCTreeMap<T1, T2>::levelOrder() {
+    if (!root) return {};
+    std::vector<std::vector<MapNode<T1, T2>*>> arr;
+    arr.reserve(s);
+    std::deque<std::tuple<MapNode<T1, T2>*, long long>> d;
+    // initialize the deque with only the root node
+    d.push_back(std::make_tuple(root, 0));
+    while (d.size()) {
+        std::tuple<MapNode<T1, T2>*, long long> curr = d.front();
+        d.pop_front();
+        // add this node's info to the array corresponding to this node's level
+        if (arr.size() <= std::get<1>(curr)) arr.push_back({});
+        arr[std::get<1>(curr)].push_back(std::get<0>(curr));
+         // add the child nodes to the deque if they exist
+        if (std::get<0>(curr)->left) d.push_back(std::make_tuple(std::get<0>(curr)->left, std::get<1>(curr)+1));
+        if (std::get<0>(curr)->right) d.push_back(std::make_tuple(std::get<0>(curr)->right, std::get<1>(curr)+1));
+    }
+    return arr;
 }
 
 #endif

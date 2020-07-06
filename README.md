@@ -1,1 +1,4 @@
-# cpp_data_structures
+# C++ Data Structures
+*Author: Ben Cullivan*
+
+## Red Black Trees

@@ -5,10 +5,10 @@ template<typename T>
 struct SetNode {
     T value;        
     bool black;
-    SetNode* parent;
-    SetNode* left; 
-    SetNode* right; 
-    SetNode(T value, bool black, SetNode* parent, SetNode* left, SetNode* right) {
+    SetNode<T>* parent;
+    SetNode<T>* left; 
+    SetNode<T>* right; 
+    SetNode(T value, bool black, SetNode<T>* parent, SetNode<T>* left, SetNode<T>* right) {
         this->value = value;
         this->black = black;
         this->parent = parent;
