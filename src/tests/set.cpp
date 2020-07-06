@@ -17,14 +17,18 @@ int main() {
 
     cout << set.size() << "\n\n";
 
-    vector<vector<tuple<int, char>>> levels = set.levelOrder();
+    vector<vector<string>> levels = set.levelOrder();
 
     for (int i = 0; i < levels.size(); i++) {
         for (int j = 0; j < levels[i].size(); j++) {
-            cout << get<0>(levels[i][j]) << get<1>(levels[i][j]) << " ";
+            cout << levels[i][j] << "   ";
         }
         cout << "\n";
     }
+
+    cout << set.isEmpty() << "\n";
+
+    cout << set.contains(9);
 
     return 0;
 }

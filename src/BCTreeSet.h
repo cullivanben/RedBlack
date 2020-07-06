@@ -28,7 +28,7 @@ class BCTreeSet {
         bool isEmpty();
         long long size();
         std::vector<T> inorder();
-        std::vector<std::vector<std::tuple<T, char>>> levelOrder();
+        std::vector<std::vector<std::string>> levelOrder();
 };
 
 // public constructor for the set
@@ -61,6 +61,7 @@ void BCTreeSet<T>::add(T value) {
             else {
                 curr->left = new SetNode<T>(value, 0, curr, 0, 0);
                 curr = curr->left;
+                s++;
                 break;
             }
         } 
@@ -70,6 +71,7 @@ void BCTreeSet<T>::add(T value) {
             else {
                 curr->right = new SetNode<T>(value, 0, curr, 0, 0);
                 curr = curr->right;
+                s++;
                 break;
             }
         }
@@ -95,11 +97,11 @@ void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
     else if (parent->black) return;
 
     // the grandparent node of the current node
-    SetNode<T>* grand = curr->parent->parent;
+    SetNode<T>* grand = parent->parent;
     // if there is no grandparent node then this node is a child of the root
     if (!grand) {
         // ensure that the root is black
-        curr->parent->black = 1;
+        parent->black = 1;
         return;
     }
     // whether this node's parent is the left child of the grandparent
@@ -254,7 +256,7 @@ void BCTreeSet<T>::inorderHelp(SetNode<T>* curr, std::vector<T>& arr) {
 
 // method to perform an inorder traversal and return a vector of all the nodes in sorted order
 // O(n) time
-// O(log(n)) space
+// O(n) space
 template<typename T>
 std::vector<T> BCTreeSet<T>::inorder() {
     if (!root) return {};
@@ -265,21 +267,25 @@ std::vector<T> BCTreeSet<T>::inorder() {
 
 // method to perform a level order traversal and return a vector consisting of vectors of all the levels
 // O(n) time
-// O(w) space - where w is the maximum width of the tree
+// O(n) space
 template<typename T>
-std::vector<std::vector<std::tuple<T, char>>> BCTreeSet<T>::levelOrder() {
+std::vector<std::vector<std::string>> BCTreeSet<T>::levelOrder() {
     if (!root) return {};
-    std::vector<std::vector<std::tuple<T, char>>> arr;
+    std::vector<std::vector<std::string>> arr;
     std::deque<std::tuple<SetNode<T>*, long long>> d;
     // initialize the deque with only the root node
     d.push_back(std::make_tuple(root, 0));
     while (d.size() > 0) {
         std::tuple<SetNode<T>*, long long> curr = d.front();
         d.pop_front();
-        // add the value of this node to the array corresponding to this node's level
+        // add this node's info to the array corresponding to this node's level
         if (arr.size() <= std::get<1>(curr)) arr.push_back({});
-        arr[std::get<1>(curr)].push_back(std::make_tuple(std::get<0>(curr)->value, 
-                std::get<0>(curr)->black ? 'b':'r'));
+        std::string out = "";
+        out += std::string("Value:") + std::to_string(std::get<0>(curr)->value);
+        out += std::string(" Color:") + (std::get<0>(curr)->black ? "B":"R");
+        out += std::string(" Left:") + (std::get<0>(curr)->left ? std::to_string(std::get<0>(curr)->left->value) : "NULL");
+        out += std::string(" Right:") + (std::get<0>(curr)->right ? std::to_string(std::get<0>(curr)->right->value) : "NULL");
+        arr[std::get<1>(curr)].push_back(out);
         // add the child nodes to the deque if they exist
         if (std::get<0>(curr)->left) d.push_back(std::make_tuple(std::get<0>(curr)->left, std::get<1>(curr)+1));
         if (std::get<0>(curr)->right) d.push_back(std::make_tuple(std::get<0>(curr)->right, std::get<1>(curr)+1));
