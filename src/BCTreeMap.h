@@ -42,9 +42,9 @@ bool BCTreeMap<T1, T2>::containsKey(T1 key) {
     MapNode* curr = root;
 
     while (curr) {
-        if (curr->getKey() == key) return true;
-        if (value < curr->getKey()) curr = curr->getLeft();
-        else curr = curr->getRight();
+        if (curr->key == key) return true;
+        if (value < curr->key) curr = curr->left;
+        else curr = curr->right;
     }
 
     return false;
