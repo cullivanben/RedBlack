@@ -1,4 +1,7 @@
 #include "SetNode.h"
+#include <vector>
+#include <deque>
+#include <tuple>
 
 #ifndef BC_TREE_SET
 #define BC_TREE_SET
@@ -14,6 +17,8 @@ class BCTreeSet {
     void rotateLeft(SetNode<T>* curr, SetNode<T>* parent);
     void rotateRight(SetNode<T>* curr, SetNode<T>* parent);
     void recolor(SetNode<T>* curr, bool color);  
+    void inorderHelp(SetNode<T>* curr, std::vector<T>& arr);
+    void levelOrderHelp(SetNode<T>* curr, std::vector<std::vector<T>>& arr);
 
     public:
         BCTreeSet();
@@ -22,6 +27,8 @@ class BCTreeSet {
         bool contains(T value);
         bool isEmpty();
         long long size();
+        std::vector<T> inorder();
+        std::vector<std::vector<T>> levelOrder();
 };
 
 // public constructor for the set
@@ -38,13 +45,13 @@ template<typename T>
 void BCTreeSet<T>::add(T value) {
     // the case where this is the first node to be inserted
     if (!root) {
-        root = new SetNode(value, 1, 0, 0, 0);
+        root = new SetNode<T>(value, 1, 0, 0, 0);
         s = 1;
         return;
     }
 
     // perform normal bst insertion
-    SetNode* curr = root;
+    SetNode<T>* curr = root;
     while (1) {
         // if this value is already in the set, do nothing and return
         if (value == curr->value) return;
@@ -52,7 +59,7 @@ void BCTreeSet<T>::add(T value) {
         if (value < curr->value) {
             if (curr->left) curr = curr->left;
             else {
-                curr->left = new SetNode(value, 0, curr, 0, 0);
+                curr->left = new SetNode<T>(value, 0, curr, 0, 0);
                 curr = curr->left;
                 break;
             }
@@ -61,7 +68,7 @@ void BCTreeSet<T>::add(T value) {
         else {
             if (curr->right) curr = curr->right;
             else {
-                curr->right = new SetNode(value, 0, curr, 0, 0);
+                curr->right = new SetNode<T>(value, 0, curr, 0, 0);
                 curr = curr->right;
                 break;
             }
@@ -75,15 +82,15 @@ void BCTreeSet<T>::add(T value) {
     }
 }
 
-// method for restoring the red black properties upon insertion
+// helper method for restoring the red black properties upon insertion
 // O(1) time
 // O(1) space
 template<typename T>
 void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
     // the grandparent node of the current node
-    SetNode* grand = curr->parent->parent;
+    SetNode<T>* grand = curr->parent->parent;
     // the parent node of the current node
-    SetNode* parent = curr->parent;
+    SetNode<T>* parent = curr->parent;
     // whether this node's parent is the left child of the grandparent
     bool left = parent->value < grand->value;
 
@@ -175,7 +182,7 @@ void BCTreeSet<T>::remove(T value) {
 // O(1) space
 template<typename T>
 bool BCTreeSet<T>::contains(T value) {
-    SetNode* curr = root;
+    SetNode<T>* curr = root;
 
     while (curr) {
         if (curr->value == value) return true;
@@ -200,6 +207,44 @@ bool BCTreeSet<T>::isEmpty() {
 template<typename T>
 long long BCTreeSet<T>::size() {
     return s;
+}
+
+// helper method for the inorder traversal
+template<typename T> 
+void BCTreeSet<T>::inorderHelp(SetNode<T>* curr, std::vector<T>& arr) {
+    if (curr->left) inorderHelp(curr->left, arr);
+    arr.push_back(curr->value);
+    if (curr->right) inorderHelp(curr->right, arr);
+}
+
+// method to perform an inorder traversal and return a vector of all the nodes in sorted order
+template<typename T>
+std::vector<T> BCTreeSet<T>::inorder() {
+    if (!root) return {};
+    std::vector<T> arr(s);
+    inorderHelp(root, arr);
+    return arr;
+}
+
+// method to perform a level order traversal and return a vector consisting of vectors of all the levels
+template<typename T>
+std::vector<std::vector<T>> BCTreeSet<T>::levelOrder() {
+    if (!root) return {};
+    std::vector<std::vector<T>> arr;
+    std::deque<std::tuple<SetNode<T>*, long long>> d;
+    // initialize the deque with only the root node
+    d.push_back(std::make_tuple(root, 0));
+    while (d.size() > 0) {
+        std::tuple<SetNode<T>*, long long> curr = d.front();
+        d.pop_front();
+        // add the value of this node to the array corresponding to this node's level
+        if (arr.size() <= std::get<1>(curr)) arr.push_back({});
+        arr[std::get<1>(curr)].push_back(std::get<0>(curr)->value);
+        // add the child nodes to the deque if they exist
+        if (std::get<0>(curr)->left) d.push_back(std::make_tuple(std::get<0>(curr)->left, std::get<1>(curr)+1));
+        if (std::get<0>(curr)->right) d.push_back(std::make_tuple(std::get<0>(curr)->right, std::get<1>(curr)+1));
+    }
+    return arr;
 }
 
 #endif
