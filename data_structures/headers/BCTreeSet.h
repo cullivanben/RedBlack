@@ -24,6 +24,9 @@ class BCTreeSet {
     void fixTree(SetNode<T>* curr, SetNode<T>* parent, SetNode<T>* sibling, bool left);
     void deleteRotate(SetNode<T>* parent, SetNode<T>* sibling);
     void inorderHelp(SetNode<T>* curr, std::vector<SetNode<T>*>& arr);
+    int validHelp(SetNode<T>* curr);
+    bool bst();
+    bool bstHelp(SetNode<T>* curr, SetNode<T>* prev, bool* lowest);
 
     public:
         BCTreeSet();
@@ -34,6 +37,7 @@ class BCTreeSet {
         long long size();
         std::vector<SetNode<T>*> inorder();
         std::vector<std::vector<SetNode<T>*>> levelOrder();
+        bool isValid();
 };
 // include the source file so that it is accessible to the compiler
 #include "../sources/BCTreeSet.cpp"

@@ -2,7 +2,6 @@
 #include "../headers/SetNode.h"
 #include <vector>
 #include <iostream>
-#include <string>
 
 using namespace std;
 
@@ -54,6 +53,4 @@ int main() {
     cout << set.size() << "\n";
     cout << set.contains(9) << "\n";
     cout << set.contains(-1) << "\n";
-
-    return 0;
 }

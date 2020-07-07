@@ -23,8 +23,11 @@ class BCTreeMap {
     void redDelete(MapNode<T1, T2>* curr, MapNode<T1, T2>* child);
     void blackDelete(MapNode<T1, T2>* curr, MapNode<T1, T2>* child);
     void fixTree(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent, MapNode<T1, T2>* sibling, bool left);
-    void deleteRotate(MapNode<T1, T2>* parent, MapNode<T1, T2>* sibling)
+    void deleteRotate(MapNode<T1, T2>* parent, MapNode<T1, T2>* sibling);
     void inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr);
+    int validHelp(MapNode<T1, T2>* curr);
+    bool bst();
+    bool bstHelp(MapNode<T1, T2>* curr, MapNode<T1, T2>* prev, bool* lowest);
 
     public:
         BCTreeMap();
@@ -35,6 +38,7 @@ class BCTreeMap {
         long long size();
         std::vector<MapNode<T1, T2>*> inorder();
         std::vector<std::vector<MapNode<T1, T2>*>> levelOrder();
+        bool isValid();
 };
 // include the source file so that it is accessible to the compiler
 #include "../sources/BCTreeMap.cpp"

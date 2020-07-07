@@ -154,6 +154,35 @@ std::vector<std::vector<MapNode<T1, T2>*>> BCTreeMap<T1, T2>::levelOrder() {
     return arr;
 }
 
+// checks that the tree satisfies all of the red black tree properties
+// O(n) time
+// O(log(n)) space
+template<typename T1, typename T2> 
+bool BCTreeMap<T1, T2>::isValid() {
+    // property one is that all nodes must be either red or black
+    // in this implementation of a red black true that will always be true
+    
+    // if there are no nodes, the tree is vaid
+    if (!root) return 1;
+
+    // property two is that the root must be black
+    // if the root is red, the tree is not valid
+    if (!root->black) return 0;
+
+    // property three is that all children of leaf nodes are black
+    // this does not need to be checked because all the children of leaf
+    // are NULL and thus black and if all NULL nodes are black this does 
+    // not affect whether the black debths of every leaf are equal
+
+    // property four is that if a node is red, then both its children are black
+    // property five is that every simple path from a node to a descendant leaf 
+    // contains the same number of black nodes
+
+    // perform a postorder traversal to check properties four and five
+    // perform an inorder traversal to make sure that the tree is a valid BST
+    return validHelp(root) != -1 && bst();
+}
+
 
 // PRIVATE HELPER METHODS
 
@@ -484,8 +513,72 @@ void BCTreeMap<T1, T2>::deleteRotate(MapNode<T1, T2>* parent, MapNode<T1, T2>* s
 // O(1) time
 // O(1) space
 template<typename T1, typename T2>
-void inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr) {
+void BCTreeMap<T1, T2>::inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr) {
     if (curr->left) inorderHelp(curr->left, arr);
     arr.push_back(curr);
     if (curr->right) inorderHelp(curr->right, arr);
+}
+
+// heler method for tree validation
+// -1 is returned when the tree is not valid, else the black height of the 
+// tree is returned
+// O(n) time
+// O(log(n)) space
+template<typename T1, typename T2> 
+int BCTreeMap<T1, T2>::validHelp(MapNode<T1, T2>* curr) {
+    // if this node is NULL its black height is zero and it is valid
+    if (!curr) return 0;
+
+    // check to make sure this node obeys property four
+    // if this node is red and it has a red child, it is not valid
+    if (!curr->black && ((curr->left && !curr->left->black) || (curr->right && !curr->right->black))) {
+        return -1;
+    }
+
+    // get the black height of the left subtree
+    int leftBlack = validHelp(curr->left);
+    // get the black height of the right subtree
+    int rightBlack = validHelp(curr->right);
+
+    // check to make sure that both subtrees are valid and that 
+    // they have equal black heights
+    if (leftBlack == -1 || rightBlack == -1 || leftBlack != rightBlack) {
+        return -1;
+    }
+
+    // return the black height of the subtrees including
+    // this node if it is black
+    return leftBlack + (curr->black ? 1:0);
+}
+
+// determines whether the tree is a valid BST
+// O(n) space
+// O(log(n)) space
+template<typename T1, typename T2> 
+bool BCTreeMap<T1, T2>::bst() {
+    // the first node visited will be the lowest
+    bool lowest = 1;
+    // create a MapNode to hold the key of the previous node
+    MapNode<T1, T2> prev = new MapNode<T1, T2>(0, 0, 0, 0, 0, 0);
+    // check if the tree is valid
+    return bstHelp(root, prev, &lowest);
+}
+
+// helper method for bst validation
+// O(n) time
+// O(log(n)) space
+template<typename T1, typename T2>
+bool BCTreeMap<T1, T2>::bstHelp(MapNode<T1, T2>* curr, MapNode<T1, T2>* prev, bool* lowest) {
+    if (!curr) return 1;
+    // if the left subtree is not valid, return false
+    if (!bstHelp(curr->left, prev, lowest)) return 0;
+    // if this is the lowest node, set lowest to false
+    if (*lowest) *lowest = 0;
+    // if this is not the lowest node, make sure this key is 
+    // greater than the key of the previous node
+    else if (curr->key <= prev->key) return 0;
+    // set the key of the previous node to the key of this node
+    prev->key = curr->key;
+    // return true if the right subtree is valid
+    return bstHelp(curr->right, prev, lowest);
 }
