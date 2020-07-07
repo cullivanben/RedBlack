@@ -23,8 +23,6 @@ class BCTreeSet {
     void blackDelete(SetNode<T>* curr, SetNode<T>* child);
     void fixTree(SetNode<T>* curr, SetNode<T>* parent, SetNode<T>* sibling, bool left);
     void deleteRotate(SetNode<T>* parent, SetNode<T>* sibling);
-    void deleteRecolor(SetNode<T>* parent, SetNode<T>* sibling);
-    void deleteAdjust(SetNode<T>* curr, SetNode<T>* sibling, bool left);
     void inorderHelp(SetNode<T>* curr, std::vector<SetNode<T>*>& arr);
 
     public:

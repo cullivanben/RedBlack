@@ -340,12 +340,12 @@ void BCTreeSet<T>::redDelete(SetNode<T>* curr, SetNode<T>* child) {
 }
 
 // deletes a node in the case that it and its child are black
+// O(log(n)) time
+// O(1) space
 template<typename T> 
 void BCTreeSet<T>::blackDelete(SetNode<T>* curr, SetNode<T>* child) {
     // the parent of the node that is being deleted
     SetNode<T>* parent = curr->parent;
-    // whether the current node is the left child of its parent
-    bool left = curr->value < parent->value;
     // if the node that is being deleted is the root
     if (!parent) {
         // set the child as the root
@@ -355,6 +355,8 @@ void BCTreeSet<T>::blackDelete(SetNode<T>* curr, SetNode<T>* child) {
         delete curr;
         return;
     }
+    // whether the current node is the left child of its parent
+    bool left = curr->value < parent->value;
     // splice out the current node
     if (left) parent->left = child;
     else parent->right = child;
@@ -367,36 +369,78 @@ void BCTreeSet<T>::blackDelete(SetNode<T>* curr, SetNode<T>* child) {
 }
 
 // parameters are supplied in case curr is null
+// O(log(n)) time
+// O(1) space
 template<typename T>
 void fixTree(SetNode<T>* curr, SetNode<T>* parent, SetNode<T>* sibling, bool left) {
-    // if the current node is the root node, make it black and return
-    if (curr && !curr->parent) {
-        root = curr;
-        curr->black = 1;
-        return;
+    // continue to fix the tree while it is not balanced
+    while (1) {
+        // if the current node is the root node, make it black and return
+        if (curr && !curr->parent) {
+            root = curr;
+            curr->black = 1;
+            return;
+        }
+        // if the current node is not null, reset the pointers
+        if (curr) {
+            parent = curr->parent;
+            left = curr->value < parent->value;
+            if (left) sibling = parent->right;
+            else sibling = parent->left;
+        }
+        // the sibling will not be null because that would mean there was already a violation of 
+        // the black depth property before this remove operation was performed and that will not happen
+        // precautionary check anyway
+        if (!sibling) return;
+        // if the sibling is black
+        if (sibling->black) {
+            // if one of the sibling's children is red
+            if ((sibling->left && !sibling->left->black) || (sibling->right && !sibling->right->black)) {
+                // perform a rotation to rebalance the tree
+                deleteRotate(parent, sibling);
+                return;
+            }
+            // both of the sibling's children are black
+            else {
+                // make the sibling red
+                sibling->black = 0;
+                // if the parent is red, make it black and return
+                if (!parent->black) {
+                    parent->black = 1;
+                    return;
+                }
+                // if the parent is black, update the current node to 
+                // the parent and allow the loop to continue
+                else curr = parent;
+            }
+        }
+        // if the sibling is red
+        else {
+            // recolor
+            sibling->black = 1;
+            parent->black = 0;
+            // if the current node is the left child of its parent
+            if (left) {
+                // rotate left 
+                rotateLeft(sibling, parent);
+                // update the sibling
+                sibling = parent->right;
+            }
+            // if the current node is the right child of its parent
+            else {
+                // rotate right
+                rotateRight(sibling, parent);
+                // update the sibling 
+                sibling = parent->left;
+            }
+            // in the next iteration of the loop this will lead to the situation where the sibling is black
+        }
     }
-    // if the current node is not null, the parameter values are not correct and they must be reset
-    if (curr) {
-        parent = curr->parent;
-        left = curr->value < parent->value;
-        if (left) sibling = parent->right;
-        else sibling = parent->left;
-    }
-    // the sibling will not be null because that would mean there was already a violation of 
-    // the black depth property before this remove operation was performed and that will not happen
-    // precautionary check anyway
-    if (!sibling) return;
-    // the sibling is black
-    if (sibling->black) {
-        // if one of the sibling's children is red
-        if ((sibling->left && !sibling->left->black) || (sibling->right && !sibling->right->black)) deleteRotate(parent, sibling);
-        // both of the sibling's children are black
-        else deleteRecolor(parent, sibling);
-    } 
-    // the sibling is red
-    else deleteAdjust(curr, sibling, left);
 }
 
+// rotates the tree upon deletion in order to re-balance it
+// O(1) time
+// O(1) space
 template<typename T>
 void BCTreeSet<T>::deleteRotate(SetNode<T>* parent, SetNode<T>* sibling) {
     // the sibling is the left child of the parent
@@ -422,39 +466,6 @@ void BCTreeSet<T>::deleteRotate(SetNode<T>* parent, SetNode<T>* sibling) {
         if (sibling->right) sibling->right->black = 1;
         // rotate left
         rotateLeft(sibling, parent);
-    }
-}
-
-template<typename T> 
-void BCTreeSet<T>::deleteRecolor(SetNode<T>* parent, SetNode<T>* sibling) {
-    // make the sibling red
-    sibling->black = 0;
-    // if the parent is red, make it black
-    if (!parent->black) parent->black = 1;
-    // recurse on the parent
-    // when we recurse, as long as the parent is not the root, the sibling will not be null
-    // this is because if the sibling were null in this case the black depth property would be violated
-    else fixTree(parent, 0, 0, 0);
-}
-
-template<typename T> 
-void BCTreeSet<T>::deleteAdjust(SetNode<T>* curr, SetNode<T>* sibling, bool left) {
-    // recolor
-    sibling->black = 1;
-    sibling->parent->black = 0;
-    // if the current node is the left child of its parent
-    if (left) {
-        // rotate left
-        rotateLeft(sibling, sibling->parent);
-        // fix the tree
-        fixTree(curr, parent, parent->right, left);
-    }
-    // if the current node is the right child of its parent
-    else {
-        // rotate right
-        rotateRight(sibling, sibling->parent);
-        // fix the tree
-        fixTree(curr, parent, parent->left, left);
     }
 }
 
