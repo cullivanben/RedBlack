@@ -18,6 +18,7 @@ class BCTreeMap {
     MapNode<T1, T2>* rotateLeft(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent);
     MapNode<T1, T2>* rotateRight(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent);
     void recolor(MapNode<T1, T2>* curr, bool color);
+    std::tuple<T1, T2> successor(MapNode<T1, T2>* curr);
     void inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr);
 
     public:

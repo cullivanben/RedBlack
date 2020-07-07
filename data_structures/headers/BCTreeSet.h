@@ -16,13 +16,21 @@ class BCTreeSet {
     void insertRestore(SetNode<T>* curr);
     SetNode<T>* rotateLeft(SetNode<T>* curr, SetNode<T>* parent);
     SetNode<T>* rotateRight(SetNode<T>* curr, SetNode<T>* parent);
-    void recolor(SetNode<T>* curr, bool color);  
+    void insertRecolor(SetNode<T>* curr, bool color);  
+    T successor(SetNode<T>* curr);
+    void deleteNode(SetNode<T>* curr, SetNode<T>* child);
+    void redDelete(SetNode<T>* curr, SetNode<T>* child);
+    void blackDelete(SetNode<T>* curr, SetNode<T>* child);
+    void fixTree(SetNode<T>* curr, SetNode<T>* parent, SetNode<T>* sibling, bool left);
+    void deleteRotate(SetNode<T>* parent, SetNode<T>* sibling);
+    void deleteRecolor(SetNode<T>* parent, SetNode<T>* sibling);
+    void deleteAdjust(SetNode<T>* curr, SetNode<T>* sibling, bool left);
     void inorderHelp(SetNode<T>* curr, std::vector<SetNode<T>*>& arr);
 
     public:
         BCTreeSet();
         void add(T value);
-        void remove(T value);
+        void remove(T value, SetNode<T>* curr);
         bool contains(T value);
         bool isEmpty();
         long long size();

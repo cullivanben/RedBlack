@@ -5,7 +5,9 @@
 #include <tuple>
 
 
-// public constructor
+// PUBLIC METHODS
+
+// constructor
 template<typename T1, typename T2>
 BCTreeMap<T1, T2>::BCTreeMap() {
     root = 0;
@@ -55,6 +57,84 @@ void BCTreeMap<T1, T2>::put(T1 key, T2 value) {
     // restore the red black properties of the tree
     insertRestore(curr);
 }
+
+// method to remove a key value pair from the map
+// O(log(n)) time
+// O(1) space
+template<typename T1, typename T2>
+void BCTreeMap<T1, T2>::remove(T1 key) {
+    if (!root) return;
+    // perform normal bst deletion 
+} 
+
+// method to check if the map contains a certain key
+// O(1) time
+// O(1) space
+template<typename T1, typename T2>
+bool BCTreeMap<T1, T2>::containsKey(T1 key) {
+    MapNode<T1, T2>* curr = root;
+    while (curr) {
+        if (key == curr->key) return true;
+        else if (key < curr->key) curr = curr->left;
+        else curr = curr->right;
+    }
+    return false;
+}
+
+// method to check if the map is empty
+// O(1) time
+// O(1) space
+template<typename T1, typename T2>
+bool BCTreeMap<T1, T2>::isEmpty() {
+    return !root;
+}
+
+// method to check the number of key-value pairs in the map
+// O(1) time
+// O(1) space
+template<typename T1, typename T2>
+long long BCTreeMap<T1, T2>::size() {
+    return s;
+}
+
+// method to perform an inorder traversal and return a vector of all the nodes in sorted order
+// O(n) time
+// O(n) space
+template<typename T1, typename T2>
+std::vector<MapNode<T1, T2>*> BCTreeMap<T1, T2>::inorder() {
+    if (!root) return {};
+    std::vector<MapNode<T1, T2>*> arr;
+    arr.reserve(s);
+    inorderHelp(root, arr);
+    return arr;
+}
+
+// method to perform a level order traversal and return a vector consisting of vectors of all the levels
+// O(n) time
+// O(n) space
+template<typename T1, typename T2>
+std::vector<std::vector<MapNode<T1, T2>*>> BCTreeMap<T1, T2>::levelOrder() {
+    if (!root) return {};
+    std::vector<std::vector<MapNode<T1, T2>*>> arr;
+    arr.reserve(s);
+    std::deque<std::tuple<MapNode<T1, T2>*, long long>> d;
+    // initialize the deque with only the root node
+    d.push_back(std::make_tuple(root, 0));
+    while (d.size()) {
+        std::tuple<MapNode<T1, T2>*, long long> curr = d.front();
+        d.pop_front();
+        // add this node's info to the array corresponding to this node's level
+        if (arr.size() <= std::get<1>(curr)) arr.push_back({});
+        arr[std::get<1>(curr)].push_back(std::get<0>(curr));
+         // add the child nodes to the deque if they exist
+        if (std::get<0>(curr)->left) d.push_back(std::make_tuple(std::get<0>(curr)->left, std::get<1>(curr)+1));
+        if (std::get<0>(curr)->right) d.push_back(std::make_tuple(std::get<0>(curr)->right, std::get<1>(curr)+1));
+    }
+    return arr;
+}
+
+
+// PRIVATE HELPER METHODS
 
 // helper method for restoring the red black properties upon insertion
 // O(log(n)) time (because it is recursive, a single execution of this function only takes O(1) time)
@@ -181,43 +261,7 @@ void BCTreeMap<T1, T2>::recolor(MapNode<T1, T2>* curr, bool color) {
     if (curr->right) curr->right->black = !color;
 }
 
-// method to remove a key value pair from the map
-// O(log(n)) time
-// O(1) space
-template<typename T1, typename T2>
-void BCTreeMap<T1, T2>::remove(T1 key) {
-    if (!root) return;
-} 
 
-// method to check if the map contains a certain key
-// O(1) time
-// O(1) space
-template<typename T1, typename T2>
-bool BCTreeMap<T1, T2>::containsKey(T1 key) {
-    MapNode<T1, T2>* curr = root;
-    while (curr) {
-        if (curr->key == key) return true;
-        if (key < curr->key) curr = curr->left;
-        else curr = curr->right;
-    }
-    return false;
-}
-
-// method to check if the map is empty
-// O(1) time
-// O(1) space
-template<typename T1, typename T2>
-bool BCTreeMap<T1, T2>::isEmpty() {
-    return !root;
-}
-
-// method to check the number of key-value pairs in the map
-// O(1) time
-// O(1) space
-template<typename T1, typename T2>
-long long BCTreeMap<T1, T2>::size() {
-    return s;
-}
 
 // helper method for the inorder traversal
 // O(1) time
@@ -227,40 +271,4 @@ void inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr) {
     if (curr->left) inorderHelp(curr->left, arr);
     arr.push_back(curr);
     if (curr->right) inorderHelp(curr->right, arr);
-}
-
-// method to perform an inorder traversal and return a vector of all the nodes in sorted order
-// O(n) time
-// O(n) space
-template<typename T1, typename T2>
-std::vector<MapNode<T1, T2>*> BCTreeMap<T1, T2>::inorder() {
-    if (!root) return {};
-    std::vector<MapNode<T1, T2>*> arr;
-    arr.reserve(s);
-    inorderHelp(root, arr);
-    return arr;
-}
-
-// method to perform a level order traversal and return a vector consisting of vectors of all the levels
-// O(n) time
-// O(n) space
-template<typename T1, typename T2>
-std::vector<std::vector<MapNode<T1, T2>*>> BCTreeMap<T1, T2>::levelOrder() {
-    if (!root) return {};
-    std::vector<std::vector<MapNode<T1, T2>*>> arr;
-    arr.reserve(s);
-    std::deque<std::tuple<MapNode<T1, T2>*, long long>> d;
-    // initialize the deque with only the root node
-    d.push_back(std::make_tuple(root, 0));
-    while (d.size()) {
-        std::tuple<MapNode<T1, T2>*, long long> curr = d.front();
-        d.pop_front();
-        // add this node's info to the array corresponding to this node's level
-        if (arr.size() <= std::get<1>(curr)) arr.push_back({});
-        arr[std::get<1>(curr)].push_back(std::get<0>(curr));
-         // add the child nodes to the deque if they exist
-        if (std::get<0>(curr)->left) d.push_back(std::make_tuple(std::get<0>(curr)->left, std::get<1>(curr)+1));
-        if (std::get<0>(curr)->right) d.push_back(std::make_tuple(std::get<0>(curr)->right, std::get<1>(curr)+1));
-    }
-    return arr;
 }
