@@ -19,12 +19,17 @@ class BCTreeMap {
     MapNode<T1, T2>* rotateRight(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent);
     void recolor(MapNode<T1, T2>* curr, bool color);
     std::tuple<T1, T2> successor(MapNode<T1, T2>* curr);
+    void deleteNode(MapNode<T1, T2>* curr, MapNode<T1, T2>* child);
+    void redDelete(MapNode<T1, T2>* curr, MapNode<T1, T2>* child);
+    void blackDelete(MapNode<T1, T2>* curr, MapNode<T1, T2>* child);
+    void fixTree(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent, MapNode<T1, T2>* sibling, bool left);
+    void deleteRotate(MapNode<T1, T2>* parent, MapNode<T1, T2>* sibling)
     void inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr);
 
     public:
         BCTreeMap();
         void put(T1 key, T2 value);
-        void remove(T1 key);
+        void remove(T1 key, MapNode<T1, T2>* curr = 0);
         bool containsKey(T1 key);
         bool isEmpty();
         long long size();

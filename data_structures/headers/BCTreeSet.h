@@ -16,7 +16,7 @@ class BCTreeSet {
     void insertRestore(SetNode<T>* curr);
     SetNode<T>* rotateLeft(SetNode<T>* curr, SetNode<T>* parent);
     SetNode<T>* rotateRight(SetNode<T>* curr, SetNode<T>* parent);
-    void insertRecolor(SetNode<T>* curr, bool color);  
+    void recolor(SetNode<T>* curr, bool color);  
     T successor(SetNode<T>* curr);
     void deleteNode(SetNode<T>* curr, SetNode<T>* child);
     void redDelete(SetNode<T>* curr, SetNode<T>* child);
@@ -28,7 +28,7 @@ class BCTreeSet {
     public:
         BCTreeSet();
         void add(T value);
-        void remove(T value, SetNode<T>* curr);
+        void remove(T value, SetNode<T>* curr = 0);
         bool contains(T value);
         bool isEmpty();
         long long size();

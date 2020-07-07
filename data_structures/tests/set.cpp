@@ -41,6 +41,14 @@ int main() {
     vector<vector<SetNode<int>*>> levels = set.levelOrder();
     display(levels);
 
+    cout << "\n\n";
+
+    // delete a red node from the botttom and display to make sure it worked
+    set.remove(5);
+    levels = set.levelOrder();
+    display(levels);
+
+
     // make sure the methods work
     cout << set.isEmpty() << "\n";
     cout << set.size() << "\n";

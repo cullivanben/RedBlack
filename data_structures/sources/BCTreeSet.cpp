@@ -59,8 +59,9 @@ void BCTreeSet<T>::add(T value) {
 // O(log(n)) time
 // O(1) space
 template<typename T> 
-void BCTreeSet<T>::remove(T value, SetNode<T>* curr = root) {
+void BCTreeSet<T>::remove(T value, SetNode<T>* curr) {
     if (!root) return;
+    if (!curr) curr = root;
     // perform normal BST deletion
     while (curr) {
         if (value == curr->value) {
@@ -180,7 +181,7 @@ void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
     if (left) {
         // if there is an uncle node and it is red
         if (grand->right && !grand->right->black) {
-            insertRecolor(grand, 0);
+            recolor(grand, 0);
             insertRestore(grand);
         }
         // the uncle node must be either null or black
@@ -189,12 +190,12 @@ void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
             if (parent->value < curr->value) parent = rotateLeft(curr, parent);
             // rotate and recolor
             rotateRight(parent, grand);
-            insertRecolor(parent, 1);
+            recolor(parent, 1);
         }
     } else {
         // if there is an uncle node and it is red
         if (grand->left && !grand->left->black) {
-            insertRecolor(grand, 0);
+            recolor(grand, 0);
             insertRestore(grand);
         }
         // the uncle node must be either null or black
@@ -203,7 +204,7 @@ void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
             if (curr->value < parent->value) parent = rotateRight(curr, parent);
             // rotate and recolor
             rotateLeft(parent, grand);
-            insertRecolor(parent, 1);
+            recolor(parent, 1);
         }
     }
 }
@@ -268,13 +269,13 @@ SetNode<T>* BCTreeSet<T>::rotateRight(SetNode<T>* curr, SetNode<T>* parent) {
 // O(1) time
 // O(1) space
 template<typename T>
-void BCTreeSet<T>::insertRecolor(SetNode<T>* curr, bool color) {
+void BCTreeSet<T>::recolor(SetNode<T>* curr, bool color) {
     curr->black = color;
     if (curr->left) curr->left->black = !color;
     if (curr->right) curr->right->black = !color;
 }
 
-// helper method to find the successor of the current node
+// helper method to find the successor of a node
 // O(log(n)) time
 // O(1) space
 template<typename T>
@@ -313,7 +314,7 @@ void BCTreeSet<T>::redDelete(SetNode<T>* curr, SetNode<T>* child) {
             // if this node is the right child of its parent
             else parent->right = child;
             // set the parent of the child to the parent of the node that is being deleted
-            child->parent = parent
+            child->parent = parent;
         }
         // the node that is being deleted is the root
         else {
@@ -333,7 +334,9 @@ void BCTreeSet<T>::redDelete(SetNode<T>* curr, SetNode<T>* child) {
             // remove the current node as a child from its parent
             if (curr->value < parent->value) parent->left = 0;
             else parent->right = 0;
-        } else root = 0;
+        } 
+        // the node that is being deleted is the root
+        else root = 0;
     }
     // delete the current node
     delete curr;
@@ -368,12 +371,13 @@ void BCTreeSet<T>::blackDelete(SetNode<T>* curr, SetNode<T>* child) {
     fixTree(child, parent, sibling, left);
 }
 
-// parameters are supplied in case curr is null
+// restores the red black properties of the tree
 // O(log(n)) time
 // O(1) space
 template<typename T>
-void fixTree(SetNode<T>* curr, SetNode<T>* parent, SetNode<T>* sibling, bool left) {
+void BCTreeSet<T>::fixTree(SetNode<T>* curr, SetNode<T>* parent, SetNode<T>* sibling, bool left) {
     // continue to fix the tree while it is not balanced
+    // I have chosen to use iteration instead of recursion because in this case iteration is more space efficient
     while (1) {
         // if the current node is the root node, make it black and return
         if (curr && !curr->parent) {
