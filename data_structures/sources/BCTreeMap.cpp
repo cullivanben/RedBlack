@@ -157,7 +157,7 @@ std::vector<std::vector<MapNode<T1, T2>*>> BCTreeMap<T1, T2>::levelOrder() {
 
 // PRIVATE HELPER METHODS
 
-// helper method for restoring the red black properties upon insertion
+// restores the red black properties upon insertion
 // O(log(n)) time (because it is recursive, a single execution of this function only takes O(1) time)
 // O(1) space
 template<typename T1, typename T2> 
@@ -216,7 +216,7 @@ void BCTreeMap<T1, T2>::insertRestore(MapNode<T1, T2>* curr) {
     }
 }
 
-// helper method to perform a left rotation
+// performs a left rotation
 // O(1) time
 // O(1) space
 template<typename T1, typename T2> 
@@ -244,7 +244,7 @@ MapNode<T1, T2>* BCTreeMap<T1, T2>::rotateLeft(MapNode<T1, T2>* curr, MapNode<T1
     return curr;
 }
 
-// helper method to perform a right rotation
+// performs a right rotation
 // O(1) time 
 // O(1) space
 template<typename T1, typename T2> 
@@ -272,7 +272,7 @@ MapNode<T1, T2>* BCTreeMap<T1, T2>::rotateRight(MapNode<T1, T2>* curr, MapNode<T
     return curr;
 }
 
-// helper method to set the current node to the specified color and its children nodes to the other color
+// sets the current node to the specified color and its children nodes to the other color
 // O(1) time
 // O(1) space
 template<typename T1, typename T2>
@@ -282,7 +282,7 @@ void BCTreeMap<T1, T2>::recolor(MapNode<T1, T2>* curr, bool color) {
     if (curr->right) curr->right->black = !color;
 }
 
-// helper method to find the successor of a node
+// finds the successor of a node
 // O(log(n)) time
 // O(1) space
 template<typename T1, typename T2>

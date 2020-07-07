@@ -151,7 +151,7 @@ std::vector<std::vector<SetNode<T>*>> BCTreeSet<T>::levelOrder() {
 
 // PRIVATE HELPER METHODS
 
-// helper method for restoring the red black properties upon insertion
+// restores the red black properties upon insertion
 // O(1) time
 // O(1) space
 template<typename T>
@@ -209,7 +209,7 @@ void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
     }
 }
 
-// helper method to perform a left rotation
+// performs a left rotation
 // O(1) time
 // O(1) space
 template<typename T>
@@ -237,7 +237,7 @@ SetNode<T>* BCTreeSet<T>::rotateLeft(SetNode<T>* curr, SetNode<T>* parent) {
     return curr;
 }
 
-// helper method to perform a right rotation
+// performs a right rotation
 // O(1) time 
 // O(1) space
 template<typename T> 
@@ -265,7 +265,7 @@ SetNode<T>* BCTreeSet<T>::rotateRight(SetNode<T>* curr, SetNode<T>* parent) {
     return curr;
 }
 
-// helper method to set the current node to the specified color and its children nodes to the other color
+// sets the current node to the specified color and its children nodes to the other color
 // O(1) time
 // O(1) space
 template<typename T>
@@ -275,7 +275,7 @@ void BCTreeSet<T>::recolor(SetNode<T>* curr, bool color) {
     if (curr->right) curr->right->black = !color;
 }
 
-// helper method to find the successor of a node
+// finds the successor of a node
 // O(log(n)) time
 // O(1) space
 template<typename T>
