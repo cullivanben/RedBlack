@@ -27,7 +27,7 @@ class BCTreeMap {
     void inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr);
     int validHelp(MapNode<T1, T2>* curr);
     bool bst();
-    bool bstHelp(MapNode<T1, T2>* curr, MapNode<T1, T2>* prev, bool* lowest);
+    bool bstHelp(MapNode<T1, T2>* curr, T1* prev, bool* lowest);
 
     public:
         BCTreeMap();
@@ -39,6 +39,9 @@ class BCTreeMap {
         std::vector<MapNode<T1, T2>*> inorder();
         std::vector<std::vector<MapNode<T1, T2>*>> levelOrder();
         bool isValid();
+        void setRootForTest(MapNode<T1, T2>* node);  // this method is purely for testing 
+        // so that invalid trees can be tested, this method would not be included in 
+        // an actual software release
 };
 // include the source file so that it is accessible to the compiler
 #include "../sources/BCTreeMap.cpp"
