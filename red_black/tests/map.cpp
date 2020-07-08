@@ -13,7 +13,7 @@ void display(vector<vector<MapNode<int, string>*>>& levels) {
             MapNode<int, string>* curr = levels[i][j];
             cout << "Key:" << curr->key;
             cout << " Value:" << curr->value;
-            cout << " Color:" << (curr->black ? 'B':'R');
+            cout << " Color:" << (curr->black ? 'B' : 'R');
             if (curr->left) cout << " Left:" << curr->left->key;
             else cout << " Left:NULL";
             if (curr->right) cout << " Right:" << curr->right->key;

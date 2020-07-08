@@ -38,6 +38,9 @@ class BCTreeSet {
         std::vector<SetNode<T>*> inorder();
         std::vector<std::vector<SetNode<T>*>> levelOrder();
         bool isValid();
+        void setRootForTest(SetNode<T>* node); // this method is purely for testing so that 
+        // invalid trees can be tested, this method would not be included in 
+        // an actual software release
 };
 // include the source file so that it is accessible to the compiler
 #include "../sources/BCTreeSet.cpp"
