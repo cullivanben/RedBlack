@@ -16,7 +16,7 @@ BCTreeSet<T>::BCTreeSet() {
 
 // method to add a value to the set
 // O(log(n)) time
-// O(1) space
+// O(log(n)) space
 template<typename T> 
 void BCTreeSet<T>::add(T value) {
     // the case where this is the first node to be inserted
@@ -113,18 +113,6 @@ long long BCTreeSet<T>::size() {
     return s;
 }
 
-// method to perform an inorder traversal and return a vector of all the nodes in sorted order
-// O(n) time
-// O(n) space
-template<typename T>
-std::vector<SetNode<T>*> BCTreeSet<T>::inorder() {
-    if (!root) return {};
-    std::vector<std::string> arr;
-    arr.reserve(s);
-    inorderHelp(root, arr);
-    return arr;
-}
-
 // method to perform a level order traversal and return a vector consisting of vectors of all the levels
 // O(n) time
 // O(n) space
@@ -189,8 +177,8 @@ void BCTreeSet<T>::setRootForTest(SetNode<T>* node) {
 // PRIVATE HELPER METHODS
 
 // restores the red black properties upon insertion
-// O(1) time
-// O(1) space
+// O(log(n)) time (because it is recursive, a single execution of this function only takes O(1) time)
+// O(log(n)) space
 template<typename T>
 void BCTreeSet<T>::insertRestore(SetNode<T>* curr) {
     // the parent node of the current node
@@ -518,16 +506,6 @@ void BCTreeSet<T>::deleteRotate(SetNode<T>* parent, SetNode<T>* sibling) {
         // rotate left
         rotateLeft(sibling, parent);
     }
-}
-
-// helper method for the inorder traversal
-// O(1) time
-// O(1) space
-template<typename T> 
-void BCTreeSet<T>::inorderHelp(SetNode<T>* curr, std::vector<SetNode<T>*>& arr) {
-    if (curr->left) inorderHelp(curr->left, arr);
-    arr.push_back(curr);
-    if (curr->right) inorderHelp(curr->right, arr);
 }
 
 // heler method for tree validation

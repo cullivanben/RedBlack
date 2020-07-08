@@ -1,7 +1,6 @@
 #include "../headers/BCTreeMap.h"
 #include "../headers/MapNode.h"
 #include <string>
-#include <iostream>
 
 using namespace std;
 
@@ -117,6 +116,183 @@ BCTreeMap<int, string> createInsertionTree3() {
     MapNode<int, string>* root = new MapNode<int, string>(0, "", 1, 0, 0, 0);
     MapNode<int, string>* left = new MapNode<int, string>(-10, "", 0, root, 0, 0);
     root->left = left;
+    // create the map
+    BCTreeMap<int, string> tree;
+    tree.setRootForTest(root);
+    return tree;
+}
+
+
+// DELETION TREES
+
+// creates a tree where the node being deleted is red
+BCTreeMap<int, string> createDeletionTree1() {
+    MapNode<int, string>* root = new MapNode<int, string>(0, "", 1, 0, 0, 0);
+    MapNode<int, string>* left = new MapNode<int, string>(-5, "", 0, root, 0, 0);
+    root->left = left;
+    // create the map
+    BCTreeMap<int, string> tree;
+    tree.setRootForTest(root);
+    return tree;
+}
+
+// creates a tree where the node that is being removed will have a red child
+BCTreeMap<int, string> createDeletionTree2() {
+    MapNode<int, string>* root = new MapNode<int, string>(0, "", 1, 0, 0, 0);
+    MapNode<int, string>* left = new MapNode<int, string>(-2, "", 1, root, 0, 0);
+    root->left = left;
+    MapNode<int, string>* right = new MapNode<int, string>(1, "", 1, root, 0, 0);
+    root->right = right;
+    MapNode<int, string>* lr = new MapNode<int, string>(-1, "", 0, left, 0, 0);
+    left->right = lr;
+    // create the map
+    BCTreeMap<int, string> tree;
+    tree.setRootForTest(root);
+    return tree;
+}
+
+// creates a tree where the sibling is black and has a red child
+BCTreeMap<int, string> createDeletionTree3Left() {
+    MapNode<int, string>* root = new MapNode<int, string>(30, "", 1, 0, 0, 0);
+    MapNode<int, string>* left = new MapNode<int, string>(20, "", 1, root, 0, 0);
+    root->left = left;
+    MapNode<int, string>* right = new MapNode<int, string>(40, "", 1, root, 0, 0);
+    root->right = right;
+    MapNode<int, string>* ll = new MapNode<int, string>(15, "", 0, left, 0, 0);
+    left->left = ll;
+    MapNode<int, string>* lr = new MapNode<int, string>(25, "", 0, left, 0, 0);
+    left->right = lr;
+    // create the map
+    BCTreeMap<int, string> tree;
+    tree.setRootForTest(root);
+    return tree;
+}
+
+// creates a tree where the sibling is black and has a red child
+BCTreeMap<int, string> createDeletionTree3Right() {
+    MapNode<int, string>* root = new MapNode<int, string>(30, "", 1, 0, 0, 0);
+    MapNode<int, string>* left = new MapNode<int, string>(20, "", 1, root, 0, 0);
+    root->left = left;
+    MapNode<int, string>* right = new MapNode<int, string>(40, "", 1, root, 0, 0);
+    root->right = right;
+    MapNode<int, string>* rl = new MapNode<int, string>(35, "", 0, right, 0, 0);
+    right->left = rl;
+    MapNode<int, string>* rr = new MapNode<int, string>(45, "", 0, right, 0, 0);
+    right->right = rr;
+    // create the map
+    BCTreeMap<int, string> tree;
+    tree.setRootForTest(root);
+    return tree;
+}
+
+// creates a tree where the sibling is black and has a red child 
+// and a pre rotation must be performed
+BCTreeMap<int, string> createDeletionTree4Left() {
+    MapNode<int, string>* root = new MapNode<int, string>(30, "", 1, 0, 0, 0);
+    MapNode<int, string>* left = new MapNode<int, string>(20, "", 1, root, 0, 0);
+    root->left = left;
+    MapNode<int, string>* right = new MapNode<int, string>(40, "", 1, root, 0, 0);
+    root->right = right;
+    MapNode<int, string>* lr = new MapNode<int, string>(25, "", 0, left, 0, 0);
+    left->right = lr;
+    // create the map
+    BCTreeMap<int, string> tree;
+    tree.setRootForTest(root);
+    return tree;
+}
+
+// creates a tree where the sibling is black and has a red child 
+// and a pre rotation must be performed
+BCTreeMap<int, string> createDeletionTree4Right() {
+    MapNode<int, string>* root = new MapNode<int, string>(30, "", 1, 0, 0, 0);
+    MapNode<int, string>* left = new MapNode<int, string>(20, "", 1, root, 0, 0);
+    root->left = left;
+    MapNode<int, string>* right = new MapNode<int, string>(40, "", 1, root, 0, 0);
+    root->right = right;
+    MapNode<int, string>* rl = new MapNode<int, string>(35, "", 0, right, 0, 0);
+    right->left = rl;
+    // create the map
+    BCTreeMap<int, string> tree;
+    tree.setRootForTest(root);
+    return tree;
+}
+
+// creates a tree where the sibling is black and its children 
+// are black and the parent is red
+BCTreeMap<int, string> createDeletionTree5() {
+    MapNode<int, string>* root = new MapNode<int, string>(50, "", 1, 0, 0, 0);
+    MapNode<int, string>* left = new MapNode<int, string>(25, "", 0, root, 0, 0);
+    root->left = left;
+    MapNode<int, string>* right = new MapNode<int, string>(75, "", 1, root, 0, 0);
+    root->right = right;
+    MapNode<int, string>* ll = new MapNode<int, string>(20, "", 1, left, 0, 0);
+    left->left = ll;
+    MapNode<int, string>* lr = new MapNode<int, string>(30, "", 1, left, 0, 0);
+    left->right = lr;
+    // create the map
+    BCTreeMap<int, string> tree;
+    tree.setRootForTest(root);
+    return tree;
+}
+
+// creates a tree where where the sibling is black and its children 
+// are black and the parent is black
+BCTreeMap<int, string> createDeletionTree6() {
+    MapNode<int, string>* root = new MapNode<int, string>(100, "", 1, 0, 0, 0);
+    MapNode<int, string>* right = new MapNode<int, string>(150, "", 1, root, 0, 0);
+    root->right = right;
+    MapNode<int, string>* rl = new MapNode<int, string>(125, "", 1, right, 0, 0);
+    right->left = rl;
+    MapNode<int, string>* rr = new MapNode<int, string>(175, "", 1, right, 0, 0);
+    right->right = rr;
+    MapNode<int, string>* left = new MapNode<int, string>(50, "", 0, root, 0, 0);
+    root->left = left;
+    MapNode<int, string>* ll = new MapNode<int, string>(25, "", 1, left, 0, 0);
+    left->left = ll;
+    MapNode<int, string>* lll = new MapNode<int, string>(24, "", 1, ll, 0, 0);
+    ll->left = lll;
+    MapNode<int, string>* llr = new MapNode<int, string>(26, "", 1, ll, 0, 0);
+    ll->right = llr;
+    MapNode<int, string>* lr = new MapNode<int, string>(75, "", 1, left, 0, 0);
+    left->right = lr;
+    MapNode<int, string>* lrl = new MapNode<int, string>(74, "", 1, lr, 0, 0);
+    lr->left = lrl;
+    MapNode<int, string>* lrr = new MapNode<int, string>(76, "", 1, lr, 0, 0);
+    lr->right = lrr;
+    // create the map
+    BCTreeMap<int, string> tree;
+    tree.setRootForTest(root);
+    return tree;
+}
+
+// creates a tree where the sibling is red
+BCTreeMap<int, string> createDeletionTree7Left() {
+    MapNode<int, string>* root = new MapNode<int, string>(20, "", 1, 0, 0, 0);
+    MapNode<int, string>* left = new MapNode<int, string>(10, "", 0, root, 0, 0);
+    root->left = left;
+    MapNode<int, string>* right = new MapNode<int, string>(30, "", 1, root, 0, 0);
+    root->right = right;
+    MapNode<int, string>* ll = new MapNode<int, string>(5, "", 1, left, 0, 0);
+    left->left = ll;
+    MapNode<int, string>* lr = new MapNode<int, string>(15, "", 1, left, 0, 0);
+    left->right = lr;
+    // create the map
+    BCTreeMap<int, string> tree;
+    tree.setRootForTest(root);
+    return tree;
+}
+
+// creates a tree where the sibling is red
+BCTreeMap<int, string> createDeletionTree7Right() {
+    MapNode<int, string>* root = new MapNode<int, string>(20, "", 1, 0, 0, 0);
+    MapNode<int, string>* left = new MapNode<int, string>(10, "", 1, root, 0, 0);
+    root->left = left;
+    MapNode<int, string>* right = new MapNode<int, string>(30, "", 0, root, 0, 0);
+    root->right = right;
+    MapNode<int, string>* rl = new MapNode<int, string>(25, "", 1, right, 0, 0);
+    right->left = rl;
+    MapNode<int, string>* rr = new MapNode<int, string>(35, "", 1, right, 0, 0);
+    right->right = rr;
     // create the map
     BCTreeMap<int, string> tree;
     tree.setRootForTest(root);

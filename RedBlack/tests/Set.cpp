@@ -33,7 +33,11 @@ void check(BCTreeSet<int> set) {
 
 // tests the various methods of the BCTreeSet to make sure they work properly
 void testMethods(BCTreeSet<int> set) {
-
+    cout << "\nTesting BCTreeSet methods...\n";
+    cout << "\nisEmpty();\n" << (set.isEmpty() ? "true\n" : "false\n");
+    cout << "size();\n" << set.size() << "\n";
+    cout << "contains(5);  (this should be true)\n" << (set.contains(5) ? "true\n" : "false\n");
+    cout << "contains(1);  (this should be false)\n" << (set.contains(1) ? "true\n" : "false\n");
 }
 
 
@@ -54,9 +58,8 @@ void performInvalidTreeTests() {
     check(third);
     cout << "Testing tree that is not a valid BST... \n";
     BCTreeSet<int> fourth = createInvalidTree4();
-    vector<vector<SetNode<int>*>> l = fourth.levelOrder();
-    display(l);
     check(fourth);
+    cout << "\n\nPerforming valid tree tests... (these should all pass)\n";
 }
 
 // tests each insertion case 
@@ -162,6 +165,7 @@ void performValidTreeTest() {
     cout << "\nHere is the BCTreeSet:\n\n";
     vector<vector<SetNode<int>*>> levels = valid.levelOrder();
     display(levels);
+    testMethods(valid);
     cout << "\nPerforming deletions...\n";
     valid.remove(5);
     check(valid);

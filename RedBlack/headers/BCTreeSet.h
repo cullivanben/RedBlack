@@ -23,7 +23,6 @@ class BCTreeSet {
     void blackDelete(SetNode<T>* curr, SetNode<T>* child);
     void fixTree(SetNode<T>* curr, SetNode<T>* parent, SetNode<T>* sibling, bool left);
     void deleteRotate(SetNode<T>* parent, SetNode<T>* sibling);
-    void inorderHelp(SetNode<T>* curr, std::vector<SetNode<T>*>& arr);
     int validHelp(SetNode<T>* curr);
     bool bst();
     bool bstHelp(SetNode<T>* curr, T* prev, bool* lowest);
@@ -35,7 +34,6 @@ class BCTreeSet {
         bool contains(T value);
         bool isEmpty();
         long long size();
-        std::vector<SetNode<T>*> inorder();
         std::vector<std::vector<SetNode<T>*>> levelOrder();
         bool isValid();
         void setRootForTest(SetNode<T>* node); // this method is purely for testing 

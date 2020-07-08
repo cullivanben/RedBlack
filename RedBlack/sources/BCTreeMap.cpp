@@ -3,7 +3,6 @@
 #include <vector>
 #include <deque>
 #include <tuple>
-#include <iostream>
 
 
 // PUBLIC METHODS
@@ -17,7 +16,7 @@ BCTreeMap<T1, T2>::BCTreeMap() {
 
 // method to add a key-value pair to the map
 // O(log(n)) time
-// O(1) space
+// O(log(n)) space
 template<typename T1, typename T2>
 void BCTreeMap<T1, T2>::put(T1 key, T2 value) {
     // if this is the first node to be inserted
@@ -90,7 +89,7 @@ void BCTreeMap<T1, T2>::remove(T1 key, MapNode<T1, T2>* curr) {
 } 
 
 // method to check if the map contains a certain key
-// O(1) time
+// O(log(n)) time
 // O(1) space
 template<typename T1, typename T2>
 bool BCTreeMap<T1, T2>::containsKey(T1 key) {
@@ -117,18 +116,6 @@ bool BCTreeMap<T1, T2>::isEmpty() {
 template<typename T1, typename T2>
 long long BCTreeMap<T1, T2>::size() {
     return s;
-}
-
-// method to perform an inorder traversal and return a vector of all the nodes in sorted order
-// O(n) time
-// O(n) space
-template<typename T1, typename T2>
-std::vector<MapNode<T1, T2>*> BCTreeMap<T1, T2>::inorder() {
-    if (!root) return {};
-    std::vector<MapNode<T1, T2>*> arr;
-    arr.reserve(s);
-    inorderHelp(root, arr);
-    return arr;
 }
 
 // method to perform a level order traversal and return a vector consisting of vectors of all the levels
@@ -197,7 +184,7 @@ void BCTreeMap<T1, T2>::setRootForTest(MapNode<T1, T2>* node) {
 
 // restores the red black properties upon insertion
 // O(log(n)) time (because it is recursive, a single execution of this function only takes O(1) time)
-// O(1) space
+// O(log(n)) space
 template<typename T1, typename T2> 
 void BCTreeMap<T1, T2>::insertRestore(MapNode<T1, T2>* curr) {
     // the parent of the current node
@@ -495,7 +482,7 @@ void BCTreeMap<T1, T2>::fixTree(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent, 
 template<typename T1, typename T2>
 void BCTreeMap<T1, T2>::deleteRotate(MapNode<T1, T2>* parent, MapNode<T1, T2>* sibling) {
     // if the sibling is the left child of the parent
-    if (sibling->key < parent->keh) {
+    if (sibling->key < parent->key) {
             // if the red node is the right child of the sibling, perform a pre rotation
         if (sibling->right && !sibling->right->black && (!sibling->left || sibling->left->black)) {
             sibling->right->black = 1;
@@ -526,16 +513,6 @@ void BCTreeMap<T1, T2>::deleteRotate(MapNode<T1, T2>* parent, MapNode<T1, T2>* s
         // rotate left
         rotateLeft(sibling, parent);
     }
-}
-
-// helper method for the inorder traversal
-// O(1) time
-// O(1) space
-template<typename T1, typename T2>
-void BCTreeMap<T1, T2>::inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr) {
-    if (curr->left) inorderHelp(curr->left, arr);
-    arr.push_back(curr);
-    if (curr->right) inorderHelp(curr->right, arr);
 }
 
 // heler method for tree validation
@@ -571,7 +548,7 @@ int BCTreeMap<T1, T2>::validHelp(MapNode<T1, T2>* curr) {
 }
 
 // determines whether the tree is a valid BST
-// O(n) space
+// O(n) time
 // O(log(n)) space
 template<typename T1, typename T2> 
 bool BCTreeMap<T1, T2>::bst() {

@@ -24,7 +24,6 @@ class BCTreeMap {
     void blackDelete(MapNode<T1, T2>* curr, MapNode<T1, T2>* child);
     void fixTree(MapNode<T1, T2>* curr, MapNode<T1, T2>* parent, MapNode<T1, T2>* sibling, bool left);
     void deleteRotate(MapNode<T1, T2>* parent, MapNode<T1, T2>* sibling);
-    void inorderHelp(MapNode<T1, T2>* curr, std::vector<MapNode<T1, T2>*>& arr);
     int validHelp(MapNode<T1, T2>* curr);
     bool bst();
     bool bstHelp(MapNode<T1, T2>* curr, T1* prev, bool* lowest);
@@ -36,7 +35,6 @@ class BCTreeMap {
         bool containsKey(T1 key);
         bool isEmpty();
         long long size();
-        std::vector<MapNode<T1, T2>*> inorder();
         std::vector<std::vector<MapNode<T1, T2>*>> levelOrder();
         bool isValid();
         void setRootForTest(MapNode<T1, T2>* node);  // this method is purely for testing 
