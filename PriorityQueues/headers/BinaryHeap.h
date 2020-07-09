@@ -24,12 +24,13 @@ class BinaryHeap {
     public:
         BinaryHeap();
         BinaryHeap(std::vector<T> arr);
+        void setVector(std::vector<T> arr);
         void add(T element);
         T getMin();
         T extractMin();
         int size();
         void clear();
-        std::vector<T> getHeap();
+        void print();
         
         // static heapsort method
         static void heapsort(std::vector<T>& arr);

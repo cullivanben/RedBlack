@@ -1,13 +1,26 @@
 #include "../headers/BinaryHeap.h"
 #include <vector>
+#include <iostream>
 
 
-// constructor
+// constructors
+template<typename T>
+BinaryHeap<T>::BinaryHeap() {}
 // O(n) time (the heap must be built)
 // O(n) space (if the vector needs to be copied, most compilers are able to avoid this, however)
 // O(1) space (usually)
 template<typename T>
 BinaryHeap<T>::BinaryHeap(std::vector<T> arr) {
+    heap = arr;
+    buildHeap();
+}
+
+// sets the underlying vector of this heap
+// O(n) time (the heap must be built)
+// O(n) space (if the vector needs to be copied, most compilers are able to avoid this, however)
+// O(1) space (usually)
+template<typename T>
+void BinaryHeap<T>::setVector(std::vector<T> arr) {
     heap = arr;
     buildHeap();
 }
@@ -31,6 +44,7 @@ void BinaryHeap<T>::add(T element) {
 // O(1) space
 template<typename T>
 T BinaryHeap<T>::getMin() {
+    if (heap.size() == 0) throw "An empty heap does not have a minimum.";
     return heap[0];
 }
 
@@ -39,7 +53,8 @@ T BinaryHeap<T>::getMin() {
 // O(1) space
 template<typename T>
 T BinaryHeap<T>::extractMin() {
-    // get the largest element
+    if (heap.size() == 0) throw "You cannot extractMin from an empty heap.";
+    // get the smallest element
     T min = heap[0];
     // replace the head of the heap with the last element
     // then remove the last element from the heap
@@ -67,14 +82,17 @@ void BinaryHeap<T>::clear() {
     heap.clear();
 }
 
-// returns the vector of all the elements in the heap
-// O(n) time (if the vector is copied, most compilers are able to avoid this, however)
-// O(1) time (usually)
-// O(n) space (if the vector is copied, most compilers are able to avoid this, however)
-// O(1) space (usually)
+// prints the heap to the console
+// O(n) time 
+// O(1) space
 template<typename T>
-std::vector<T> BinaryHeap<T>::getHeap() {
-    return heap;
+void BinaryHeap<T>::print() {
+    std::cout << '[';
+    for (int i = 0; i < heap.size(); i++) {
+        std::cout << heap[i];
+        if (i < heap.size()-1) std::cout << ", ";
+    }
+    std::cout << "]\n";
 }
 
 
