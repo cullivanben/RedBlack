@@ -4,7 +4,7 @@
 ## Red Black Trees
 **BCTreeMap** is a class that implements a red black tree, providing similar functionality and time complexity as std::map
 
-**BCTreeSet** is a class that implements a red black tree, providing similar functinoality and time complexity as std::set
+**BCTreeSet** is a class that implements a red black tree, providing similar functionality and time complexity as std::set
 
 To run the tests I have written for BCTreeMap, compile and execute Map.cpp
 
