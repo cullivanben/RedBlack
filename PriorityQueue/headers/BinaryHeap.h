@@ -34,7 +34,7 @@ class BinaryHeap {
         // static heapsort method
         static void heapsort(std::vector<T>& arr);
 };
-// include the source file so that it is accessible to the compiler
+// include the source file so that the compiler can access it
 #include "../sources/BinaryHeap.cpp"
 
 #endif
