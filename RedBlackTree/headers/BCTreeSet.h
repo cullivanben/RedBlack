@@ -40,7 +40,7 @@ class BCTreeSet {
         // so that invalid trees can be tested, this method would not be included in 
         // an actual software release
 };
-// include the source file so that it is accessible to the compiler
+// include the source file so that the compiler can access it 
 #include "../sources/BCTreeSet.cpp"
 
 #endif
