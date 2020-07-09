@@ -21,7 +21,7 @@ void BinaryHeap<T>::add(T element) {
     heap.push_back(element);
     int i = heap.size() - 1;
     while (i > 0 && heap[i] < heap[parent(i)]) {
-        swap(heap[i], heap[parent(i)]);
+        std::swap(heap[i], heap[parent(i)]);
         i = parent(i);
     }
 }
@@ -130,7 +130,7 @@ void BinaryHeap<T>::minHeapify(int i) {
         if (smallest == i) return;
 
         // swap the element at i with the smallest element and move down the heap
-        swap(heap[i], heap[smallest]);
+        std::swap(heap[i], heap[smallest]);
         i = smallest;
     }
 }
@@ -162,13 +162,37 @@ void BinaryHeap<T>::heapsort(std::vector<T>& arr) {
     // the end of the vector and then restore the heap
     int end = arr.size();
     while (end > 1) {
-        swap(arr[0], arr[--end]);
+        std::swap(arr[0], arr[--end]);
         sMinHeapify(0, arr, end);
     }
 }
 
 
 // HEAPSORT HELPERS
+
+// calculates the index of the parent of the element at index i
+// O(1) time
+// O(1) space
+template<typename T>
+int BinaryHeap<T>::sParent(int i) {
+    return (i - 1) / 2;
+}
+
+// calculates the index of the left child of the element at index i
+// O(1) time
+// O(1) space
+template<typename T>
+int BinaryHeap<T>::sLeftChild(int i) {
+    return 2 * i + 1;
+}
+
+// calculates the index of the right child of the element at index i
+// O(1) time
+// O(1) space
+template<typename T>
+int BinaryHeap<T>::sRightChild(int i) {
+    return 2 * i + 2;
+}
 
 // converts the heap to a min heap, assuming that all subtrees are valid min heaps
 // O(log(n)) time
@@ -178,8 +202,8 @@ void BinaryHeap<T>::sMinHeapify(int i, std::vector<T>& arr, int end) {
     // as long as the element at i is not the smallest of it and its children,
     // swap it with its smallest child
     while (1) {
-        int left = leftChild(i);
-        int right = rightChild(i);
+        int left = sLeftChild(i);
+        int right = sRightChild(i);
 
         // set the element at i as the current smallest element
         int smallest = i;
@@ -196,7 +220,7 @@ void BinaryHeap<T>::sMinHeapify(int i, std::vector<T>& arr, int end) {
         if (smallest == i) return;
 
         // swap the element at i with the smallest element and move down the heap
-        swap(arr[i], arr[smallest]);
+        std::swap(arr[i], arr[smallest]);
         i = smallest;
     }
 }
@@ -208,7 +232,7 @@ template<typename T>
 void BinaryHeap<T>::sBuildHeap(std::vector<T>& arr) {
     // find the last non-leaf element
     // min heapify at every element from that to the beginning of the vector
-    int start = parent(arr.size() - 1);
+    int start = sParent(arr.size() - 1);
     while (start >= 0) {
         sMinHeapify(start, arr, arr.size());
         start--;

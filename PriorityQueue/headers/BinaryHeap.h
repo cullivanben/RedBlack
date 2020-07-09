@@ -15,6 +15,9 @@ class BinaryHeap {
     void buildHeap();
 
     // static helpers for heapsort
+    static int sParent(int i);
+    static int sLeftChild(int i);
+    static int sRightChild(int i);
     static void sMinHeapify(int i, std::vector<T>& arr, int end);
     static void sBuildHeap(std::vector<T>& arr);
 
