@@ -39,7 +39,7 @@ T BinaryHeap<T>::getMin() {
 // O(1) space
 template<typename T>
 T BinaryHeap<T>::extractMin() {
-    // get the smallest element
+    // get the largest element
     T min = heap[0];
     // replace the head of the heap with the last element
     // then remove the last element from the heap
@@ -109,29 +109,29 @@ int BinaryHeap<T>::rightChild(int i) {
 // O(1) space
 template<typename T>
 void BinaryHeap<T>::minHeapify(int i) {
-    // as long as the element at i is not the smallest of it and its children,
-    // swap it with its smallest child
+    // as long as the element at i is not the largest of it and its children,
+    // swap it with its largest child
     while (1) {
         int left = leftChild(i);
         int right = rightChild(i);
 
-        // set the element at i as the current smallest element
-        int smallest = i;
+        // set the element at i as the current largest element
+        int largest = i;
 
-        // if the left child is smaller than the current smallest element,
-        // set the left child as the smallest
-        if (left < heap.size() && heap[left] < heap[smallest]) smallest = left;
+        // if the left child is smaller than the current largest element,
+        // set the left child as the largest
+        if (left < heap.size() && heap[left] < heap[largest]) largest = left;
 
-        // if the right child is samller than the current smallest element, 
-        // set the right child as the smallest
-        if (right < heap.size() && heap[right] < heap[smallest]) smallest = right;
+        // if the right child is samller than the current largest element, 
+        // set the right child as the largest
+        if (right < heap.size() && heap[right] < heap[largest]) largest = right;
 
-        // if the element at i is the smallest, the heap has been minified
-        if (smallest == i) return;
+        // if the element at i is the largest, the heap has been minified
+        if (largest == i) return;
 
-        // swap the element at i with the smallest element and move down the heap
-        std::swap(heap[i], heap[smallest]);
-        i = smallest;
+        // swap the element at i with the largest element and move down the heap
+        std::swap(heap[i], heap[largest]);
+        i = largest;
     }
 }
 
@@ -143,17 +143,14 @@ void BinaryHeap<T>::buildHeap() {
     // find the last non-leaf element
     // min heapify at every element from that to the beginning of the vector
     int start = parent(heap.size() - 1);
-    while (start >= 0) {
-        minHeapify(start);
-        start--;
-    }
+    while (start >= 0) minHeapify(start--);
 }
 
 
 // HEAPSORT
 
 // uses heapsort to sort a vector
-// the sorted array will be in non-increasing order
+// the sorted array will be in non-decreasing order
 template<typename T>
 void BinaryHeap<T>::heapsort(std::vector<T>& arr) {
     // convert the vector to a heap
@@ -163,7 +160,7 @@ void BinaryHeap<T>::heapsort(std::vector<T>& arr) {
     int end = arr.size();
     while (end > 1) {
         std::swap(arr[0], arr[--end]);
-        sMinHeapify(0, arr, end);
+        sMaxHeapify(0, arr, end);
     }
 }
 
@@ -194,48 +191,45 @@ int BinaryHeap<T>::sRightChild(int i) {
     return 2 * i + 2;
 }
 
-// converts the heap to a min heap, assuming that all subtrees are valid min heaps
+// converts the heap to a max heap, assuming that all subtrees are valid min heaps
 // O(log(n)) time
 // O(1) space
 template<typename T>
-void BinaryHeap<T>::sMinHeapify(int i, std::vector<T>& arr, int end) {
-    // as long as the element at i is not the smallest of it and its children,
-    // swap it with its smallest child
+void BinaryHeap<T>::sMaxHeapify(int i, std::vector<T>& arr, int end) {
+    // as long as the element at i is not the largest of it and its children,
+    // swap it with its largest child
     while (1) {
         int left = sLeftChild(i);
         int right = sRightChild(i);
 
-        // set the element at i as the current smallest element
-        int smallest = i;
+        // set the element at i as the current largest element
+        int max = i;
 
-        // if the left child is smaller than the current smallest element,
-        // set the left child as the smallest
-        if (left < end && arr[left] < arr[smallest]) smallest = left;
+        // if the left child is larger than the current largest element,
+        // set the left child as the largest
+        if (left < end && arr[left] > arr[max]) max = left;
 
-        // if the right child is samller than the current smallest element, 
-        // set the right child as the smallest
-        if (right < end && arr[right] < arr[smallest]) smallest = right;
+        // if the right child is larger than the current largest element, 
+        // set the right child as the largest
+        if (right < end && arr[right] > arr[max]) max = right;
 
-        // if the element at i is the smallest, the heap has been minified
-        if (smallest == i) return;
+        // if the element at i is the largest, the heap has been maxified
+        if (max == i) return;
 
-        // swap the element at i with the smallest element and move down the heap
-        std::swap(arr[i], arr[smallest]);
-        i = smallest;
+        // swap the element at i with the largest element and move down the heap
+        std::swap(arr[i], arr[max]);
+        i = max;
     }
 }
 
-// turns a vector into a min heap
+// turns a vector into a max heap
 // O(n) time
 // O(1) space
 template<typename T>
 void BinaryHeap<T>::sBuildHeap(std::vector<T>& arr) {
     // find the last non-leaf element
-    // min heapify at every element from that to the beginning of the vector
+    // max heapify at every element from that to the beginning of the vector
     int start = sParent(arr.size() - 1);
-    while (start >= 0) {
-        sMinHeapify(start, arr, arr.size());
-        start--;
-    }
+    while (start >= 0) sMaxHeapify(start--, arr, arr.size());
 }
 
