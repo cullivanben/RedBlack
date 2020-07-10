@@ -5,13 +5,10 @@
 
 template<typename T>
 class BinomialHeap {
-    // helper method to merge two binomial trees of the same degree
-    void mergeNodes(Node<T>* a, Node<T>* b);
-    // helper method to merge two heaps
-    void merge(Node<T>* other);
-
     // the head of the heap
     Node<T>* head;
+    // helper method to merge two heaps
+    void merge(Node<T>* other);
     public: 
         BinomialHeap();
         Node<T>* getHead();
