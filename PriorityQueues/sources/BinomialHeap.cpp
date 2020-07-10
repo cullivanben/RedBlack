@@ -1,6 +1,7 @@
 #include "../headers/BinomialHeap.h"
 #include "../headers/Node.h"
 #include <iostream>
+#include <queue>
 
 
 // constructor
@@ -30,10 +31,6 @@ void BinomialHeap<T>::setHead(Node<T>* newHead) {
 // O(1) space
 template<typename T>
 void BinomialHeap<T>::insert(T data) {
-    // create a heap consisting of only one node that contains 
-    // the data to be inserted
-    // BinomialHeap<T> other;
-    // other.setHead(new Node(data, 0));
     merge(new Node(data, 0));
 }
 
@@ -101,13 +98,6 @@ T BinomialHeap<T>::extractMin() {
 // O(1) space
 template<typename T>
 void BinomialHeap<T>::merge(Node<T>* other) {
-    // // create the heap to merge with the main heap
-    // BinomialHeap<T> hPrime;
-    // hPrime.setHead(other);
-    // // merge hPrime with this heap
-    // std::cout << "\nhprime\n";
-    // hPrime.printHeap();
-    // std::cout << "\n\n";
     if (!other) return;
     if (!head) {
         head = other;
@@ -115,16 +105,6 @@ void BinomialHeap<T>::merge(Node<T>* other) {
     }
     // get pointers to the two heads 
     Node<T> *a, *b, *t;
-    //head = head->degree < other->degree ? head : other;
-    // if (head->degree < other->degree) {
-    //     a = head;
-    //     b = other;
-    // } else {
-    //     a = other;
-    //     b = head;
-    //     std::cout << "OTHERRRRR" << other->data << "\n";
-    //     head = other;
-    // }
     a = head;
     b = other;
     if (other->degree < head->degree) head = other;
@@ -146,24 +126,7 @@ void BinomialHeap<T>::merge(Node<T>* other) {
             b = b->sibling;
             t->sibling = a;
         }
-        // while (a->sibling && b->degree > a->sibling->degree) a = a->sibling;
-        // Node<T>* curr = b;
-        // b = b->sibling;
-        // // splice the node from b into a's heap
-        // curr->sibling = a->sibling;
-        // a->sibling = curr;
-        // a = a->sibling;
     }
-    // if (a) a->sibling = b;
-    // Node<T>* y = head;
-    // while (y) {
-    //     std::cout << "curr:" << y->data << " ";
-    //     y = y->sibling;
-    // }
-    // std::cout << "\n";
-    // std::cout << "printing after degree merge: \n";
-    // printHeap();
-    // std::cout << "doneaosdnf\n\n";
 
     // set pointers for the merging process of heaps with the same degree
     Node<T> *prev = 0, *curr = head, *next = head->sibling;
@@ -205,21 +168,25 @@ void BinomialHeap<T>::merge(Node<T>* other) {
 template<typename T>
 void BinomialHeap<T>::printHeap() {
     std::cout << "Binomial Heap:\n";
+    Node<T>* temp = head;
     int i = 1;
-    while (head) {
-        std::cout << "Tree " << i++ << ": [" << head->data;
-        if (head->child) std::cout << ", ";
-        Node<T>* down = head->child;
-        while (down) {
-            Node<T>* curr = down;
-            while (curr) {
-                std::cout << curr->data;
-                if (curr->sibling || down->child) std::cout << ", ";
-                curr = curr->sibling;
+    while (temp) {
+        std::cout << "Tree " << i++ << ": [ ";
+        std::queue<Node<T>*> q;
+        q.push(temp);
+        while (!q.empty()) {
+            Node<int>* node = q.front();
+            q.pop();
+            std::cout << node->data << ", ";
+            if (node->child) {
+                Node<int>* chi = node->child;
+                while (chi) {
+                    q.push(chi);
+                    chi = chi->sibling;
+                }
             }
-            down = down->child;
         }
         std::cout << "]\n";
-        head = head->sibling;
+        temp = temp->sibling;
     }
 }

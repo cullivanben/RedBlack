@@ -8,14 +8,12 @@ class BinomialHeap {
     // helper method to merge two binomial trees of the same degree
     void mergeNodes(Node<T>* a, Node<T>* b);
     // helper method to merge two heaps
-    
+    void merge(Node<T>* other);
 
     // the head of the heap
     Node<T>* head;
     public: 
         BinomialHeap();
-    void merge(Node<T>* other);
-
         Node<T>* getHead();
         void setHead(Node<T>* newHead);
         void insert(T data);
