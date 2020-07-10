@@ -6,11 +6,10 @@ template <typename T>
 struct Node {
     T data;
     int degree; 
-    Node *parent, *child, *sibling;
+    Node *child, *sibling;
     Node(T data, int degree) {
         this->data = data;
         this->degree = degree;
-        parent = 0;
         child = 0;
         sibling = 0;
     }
