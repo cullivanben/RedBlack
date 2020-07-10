@@ -9,7 +9,7 @@ class BinaryPQ {
     BinaryHeap<T> heap;
 
     public:
-        BinaryPQ();
+        BinaryPQ(); 
         BinaryPQ(std::vector<T> arr);
         bool isEmpty();
         int size();

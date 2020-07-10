@@ -1,10 +1,43 @@
 #include "../headers/BinomialHeap.h"
 #include "../headers/Node.h"
+#include "../headers/BinomialPQ.h"
 #include <iostream>
 #include <queue>
 
 using namespace std;
 
+
+// tests the priority queue
+void pqTest() {
+    BinomialPQ<int> pq;
+    cout << "\nTesting BinomialPQ...\nInserting numbers...\n";
+    pq.push(6);
+    pq.push(5);
+    pq.push(4);
+    pq.push(4);
+    pq.push(-120);
+    pq.push(3);
+    pq.push(2);
+    pq.push(1);
+    pq.push(55);
+    pq.push(546);
+    pq.push(21);
+    pq.push(8);
+    pq.push(6);
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+    cout << "Extracting min: " << pq.pop() << "\n";
+}
 
 // tests the binomial heap to make sure that it works
 void heapTest1() {
@@ -69,6 +102,7 @@ void heapTest1() {
 
 
 int main() {
+    pqTest();
     heapTest1();
     return 0;
 }
