@@ -1,7 +1,6 @@
 #include "Node.h"
 
-#ifndef BINOMIAL_HEAP
-#define BINOMIAL_HEAP
+#pragma once
 
 template<typename T>
 class BinomialHeap {
@@ -20,5 +19,3 @@ class BinomialHeap {
 };
 // include the source file so the compiler can access it
 #include "../sources/BinomialHeap.cpp"
-
-# endif

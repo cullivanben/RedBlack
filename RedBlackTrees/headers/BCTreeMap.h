@@ -3,9 +3,7 @@
 #include <deque>
 #include <tuple>
 
-
-#ifndef BC_TREE_MAP
-#define BC_TREE_MAP
+#pragma once
 
 // this class uses a red black tree to implement a map
 template<typename T1, typename T2>
@@ -43,5 +41,3 @@ class BCTreeMap {
 };
 // include the source file so that the compiler can access it
 #include "../sources/BCTreeMap.cpp"
-
-#endif

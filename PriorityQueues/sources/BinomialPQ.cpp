@@ -1,5 +1,4 @@
 #include "../headers/BinomialPQ.h"
-#include "../headers/BinomialHeap.h"
 
 
 // tests whether the priority queue is empty

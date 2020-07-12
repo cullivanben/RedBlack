@@ -1,5 +1,4 @@
 #include "../headers/BinomialHeap.h"
-#include "../headers/Node.h"
 #include <iostream>
 #include <queue>
 
@@ -90,6 +89,33 @@ T BinomialHeap<T>::extractMin() {
     return val;
 }
 
+// prints the heap
+template<typename T>
+void BinomialHeap<T>::printHeap() {
+    std::cout << "Binomial Heap:\n";
+    Node<T>* temp = head;
+    int i = 1;
+    while (temp) {
+        std::cout << "Tree " << i++ << ": [ ";
+        std::queue<Node<T>*> q;
+        q.push(temp);
+        while (!q.empty()) {
+            Node<T>* node = q.front();
+            q.pop();
+            std::cout << node->data << ", ";
+            if (node->child) {
+                Node<T>* chi = node->child;
+                while (chi) {
+                    q.push(chi);
+                    chi = chi->sibling;
+                }
+            }
+        }
+        std::cout << "]\n";
+        temp = temp->sibling;
+    }
+}
+
 
 // MERGE
 
@@ -161,32 +187,5 @@ void BinomialHeap<T>::merge(Node<T>* other) {
             curr = next;
             next = next->sibling;
         }
-    }
-}
-
-// prints the heap
-template<typename T>
-void BinomialHeap<T>::printHeap() {
-    std::cout << "Binomial Heap:\n";
-    Node<T>* temp = head;
-    int i = 1;
-    while (temp) {
-        std::cout << "Tree " << i++ << ": [ ";
-        std::queue<Node<T>*> q;
-        q.push(temp);
-        while (!q.empty()) {
-            Node<int>* node = q.front();
-            q.pop();
-            std::cout << node->data << ", ";
-            if (node->child) {
-                Node<int>* chi = node->child;
-                while (chi) {
-                    q.push(chi);
-                    chi = chi->sibling;
-                }
-            }
-        }
-        std::cout << "]\n";
-        temp = temp->sibling;
     }
 }

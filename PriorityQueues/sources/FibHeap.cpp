@@ -1,6 +1,7 @@
 #include "../headers/FibHeap.h"
-#include "../headers/FibNode.h"
 #include <unordered_map>
+#include <queue>
+#include <iostream>
 
 
 // constructor
@@ -13,7 +14,7 @@ FibHeap<T>::FibHeap() {
 // O(1) time
 // O(1) space
 template<typename T>
-FibNode<T>* FibHeap<T>::insert(T key) {
+void FibHeap<T>::insert(T key) {
     numNodes++;
     FibNode<T>* node = new FibNode(key, 0);
     if (min) {
@@ -78,6 +79,33 @@ T FibHeap<T>::extractMin() {
     return key;
 }
 
+// prints the heap
+template<typename T> 
+void FibHeap<T>::printHeap() {
+    std::cout << "Fibonacci heap:\n";
+    FibNode<T> *temp = min, *start = min;
+    int i = 1;
+    do {
+        std::cout << "Tree " << i++ << ": [ ";
+        std::queue<FibNode<T>*> q;
+        q.push(temp);
+        while (!q.empty()) {
+            FibNode<T>* node = q.front();
+            q.pop();
+            std::cout << node->key << ", ";
+            if (node->child) {
+                FibNode<T> *a = node->child, *b = node->child;
+                do {
+                    q.push(a);
+                    a = a->right;
+                } while (a != b);
+            }
+        }
+        std::cout << "]\n";
+        temp = temp->right;
+    } while (temp != start);
+}
+
 
 // HELPER METHODS
 
@@ -109,7 +137,7 @@ void FibHeap<T>::fixHeap() {
         while (nodeMap.find(degree) != nodeMap.end()) {
             other = nodeMap[degree];
             start = other->key < start->key ? link(other, start) : link(start, other);
-            degree = start
+            degree = start->degree;
         }
         nodeMap[degree] = start;
     } while (holder != curr);
@@ -158,8 +186,9 @@ FibNode<T>* FibHeap<T>::link(FibNode<T>* parent, FibNode<T>* child) {
     else spliceIn(parent->child, child);
     // set the child of the parent
     if (child->key < parent->child->key) parent->child = child;
-    // increase the degree of parent
+    // increase the degree of parent and return parent
     parent->degree++;
+    return parent;
 }
 
 // merges two fib heaps

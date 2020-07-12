@@ -1,8 +1,7 @@
 #include "BinaryHeap.h"
 #include <vector>
 
-#ifndef BINARY_P_Q
-#define BINARY_P_Q
+#pragma once
 
 template<typename T>
 class BinaryPQ {
@@ -21,5 +20,3 @@ class BinaryPQ {
 };
 // include the source file so that the compiler can access it
 #include "../sources/BinaryPQ.cpp"
-
-#endif

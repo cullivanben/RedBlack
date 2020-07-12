@@ -1,7 +1,6 @@
 #include <vector>
 
-#ifndef BINARY_HEAP
-#define BINARY_HEAP
+#pragma once
 
 template<typename T>
 class BinaryHeap {
@@ -37,5 +36,3 @@ class BinaryHeap {
 };
 // include the source file so that the compiler can access it
 #include "../sources/BinaryHeap.cpp"
-
-#endif

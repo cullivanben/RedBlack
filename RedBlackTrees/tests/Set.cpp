@@ -1,5 +1,4 @@
 #include "../headers/BCTreeSet.h"
-#include "../headers/SetNode.h"
 #include "SetCreation.cpp"
 #include <iostream>
 #include <vector>

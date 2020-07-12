@@ -3,8 +3,7 @@
 #include <deque>
 #include <tuple>
 
-#ifndef BC_TREE_SET
-#define BC_TREE_SET
+#pragma once
 
 // this template class uses a red black tree to implement a set
 template<typename T>
@@ -42,5 +41,3 @@ class BCTreeSet {
 };
 // include the source file so that the compiler can access it 
 #include "../sources/BCTreeSet.cpp"
-
-#endif

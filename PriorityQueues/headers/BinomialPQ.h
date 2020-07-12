@@ -1,7 +1,6 @@
 #include "BinomialHeap.h"
 
-#ifndef BINOMIAL_P_Q
-#define BINOMIAL_P_Q
+#pragma once
 
 template<typename T>
 class BinomialPQ {
@@ -16,5 +15,3 @@ class BinomialPQ {
 };
 // include the source file so the compiler can access it
 #include "../sources/BinomialPQ.cpp"
-
-#endif

@@ -1,4 +1,3 @@
-#include "../headers/BinaryHeap.h"
 #include "../headers/BinaryPQ.h"
 #include <iostream>
 #include <vector>
