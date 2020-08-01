@@ -168,7 +168,7 @@ void performValidTreeTest() {
     checkStr(valid);
     valid.put("k", 0);
     checkStr(valid);
-    cout << "\nHere is the BCTreeSet:\n\n";
+    cout << "\nHere is the BCTreeMap:\n\n";
     vector<vector<MapNode<string, int>*>> levels = valid.levelOrder();
     displayStr(levels);
     testMethods(valid);
