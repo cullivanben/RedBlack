@@ -1,8 +1,8 @@
-#include "../headers/BCTreeMap.h"
 #include <string>
 
-using namespace std;
+#include "../headers/BCTreeMap.h"
 
+using namespace std;
 
 // INVALID TREES
 
@@ -22,13 +22,17 @@ BCTreeMap<int, string> createInvalidTree2() {
     root->left = six;
     MapNode<int, string>* five = new MapNode<int, string>(5, "", 0, six, 0, 0);
     six->left = five;
-    MapNode<int, string>* twelve = new MapNode<int, string>(12, "", 1, root, 0, 0);
+    MapNode<int, string>* twelve =
+        new MapNode<int, string>(12, "", 1, root, 0, 0);
     root->right = twelve;
-    MapNode<int, string>* eleven = new MapNode<int, string>(11, "", 0, twelve, 0, 0);
+    MapNode<int, string>* eleven =
+        new MapNode<int, string>(11, "", 0, twelve, 0, 0);
     twelve->left = eleven;
-    MapNode<int, string>* thirteen = new MapNode<int, string>(13, "", 0, twelve, 0, 0);
+    MapNode<int, string>* thirteen =
+        new MapNode<int, string>(13, "", 0, twelve, 0, 0);
     twelve->right = thirteen;
-    MapNode<int, string>* fourteen = new MapNode<int, string>(14, "", 0, thirteen, 0, 0);
+    MapNode<int, string>* fourteen =
+        new MapNode<int, string>(14, "", 0, thirteen, 0, 0);
     thirteen->right = fourteen;
     // create the map
     BCTreeMap<int, string> invalid;
@@ -43,13 +47,17 @@ BCTreeMap<int, string> createInvalidTree3() {
     root->left = six;
     MapNode<int, string>* five = new MapNode<int, string>(5, "", 1, six, 0, 0);
     six->left = five;
-    MapNode<int, string>* twelve = new MapNode<int, string>(12, "", 0, root, 0, 0);
+    MapNode<int, string>* twelve =
+        new MapNode<int, string>(12, "", 0, root, 0, 0);
     root->right = twelve;
-    MapNode<int, string>* eleven = new MapNode<int, string>(11, "", 1, twelve, 0, 0);
+    MapNode<int, string>* eleven =
+        new MapNode<int, string>(11, "", 1, twelve, 0, 0);
     twelve->left = eleven;
-    MapNode<int, string>* thirteen = new MapNode<int, string>(13, "", 1, twelve, 0, 0);
+    MapNode<int, string>* thirteen =
+        new MapNode<int, string>(13, "", 1, twelve, 0, 0);
     twelve->right = thirteen;
-    MapNode<int, string>* fourteen = new MapNode<int, string>(14, "", 0, thirteen, 0, 0);
+    MapNode<int, string>* fourteen =
+        new MapNode<int, string>(14, "", 0, thirteen, 0, 0);
     thirteen->right = fourteen;
     // create the map
     BCTreeMap<int, string> invalid;
@@ -64,18 +72,20 @@ BCTreeMap<int, string> createInvalidTree4() {
     root->left = six;
     MapNode<int, string>* five = new MapNode<int, string>(5, "", 0, six, 0, 0);
     six->left = five;
-    MapNode<int, string>* twelve = new MapNode<int, string>(12, "", 1, root, 0, 0);
+    MapNode<int, string>* twelve =
+        new MapNode<int, string>(12, "", 1, root, 0, 0);
     root->right = twelve;
-    MapNode<int, string>* ten = new MapNode<int, string>(10, "", 0, twelve, 0, 0);
+    MapNode<int, string>* ten =
+        new MapNode<int, string>(10, "", 0, twelve, 0, 0);
     twelve->left = ten;
-    MapNode<int, string>* thirteen = new MapNode<int, string>(13, "", 0, twelve, 0, 0);
+    MapNode<int, string>* thirteen =
+        new MapNode<int, string>(13, "", 0, twelve, 0, 0);
     twelve->right = thirteen;
     // create the map
     BCTreeMap<int, string> invalid;
     invalid.setRootForTest(root);
     return invalid;
 }
-
 
 // INSERTION TREES
 
@@ -92,9 +102,11 @@ BCTreeMap<int, string> createInsertionTree1() {
 // uncle that are both red
 BCTreeMap<int, string> createInsertionTree2() {
     MapNode<int, string>* root = new MapNode<int, string>(0, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(-2, "", 1, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(-2, "", 1, root, 0, 0);
     root->left = left;
-    MapNode<int, string>* right = new MapNode<int, string>(2, "", 0, root, 0, 0);
+    MapNode<int, string>* right =
+        new MapNode<int, string>(2, "", 0, root, 0, 0);
     root->right = right;
     MapNode<int, string>* rl = new MapNode<int, string>(1, "", 1, right, 0, 0);
     right->left = rl;
@@ -113,7 +125,8 @@ BCTreeMap<int, string> createInsertionTree2() {
 // creates a tree where the parent is red and the uncle is black
 BCTreeMap<int, string> createInsertionTree3() {
     MapNode<int, string>* root = new MapNode<int, string>(0, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(-10, "", 0, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(-10, "", 0, root, 0, 0);
     root->left = left;
     // create the map
     BCTreeMap<int, string> tree;
@@ -121,13 +134,13 @@ BCTreeMap<int, string> createInsertionTree3() {
     return tree;
 }
 
-
 // DELETION TREES
 
 // creates a tree where the node being deleted is red
 BCTreeMap<int, string> createDeletionTree1() {
     MapNode<int, string>* root = new MapNode<int, string>(0, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(-5, "", 0, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(-5, "", 0, root, 0, 0);
     root->left = left;
     // create the map
     BCTreeMap<int, string> tree;
@@ -138,9 +151,11 @@ BCTreeMap<int, string> createDeletionTree1() {
 // creates a tree where the node that is being removed will have a red child
 BCTreeMap<int, string> createDeletionTree2() {
     MapNode<int, string>* root = new MapNode<int, string>(0, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(-2, "", 1, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(-2, "", 1, root, 0, 0);
     root->left = left;
-    MapNode<int, string>* right = new MapNode<int, string>(1, "", 1, root, 0, 0);
+    MapNode<int, string>* right =
+        new MapNode<int, string>(1, "", 1, root, 0, 0);
     root->right = right;
     MapNode<int, string>* lr = new MapNode<int, string>(-1, "", 0, left, 0, 0);
     left->right = lr;
@@ -153,9 +168,11 @@ BCTreeMap<int, string> createDeletionTree2() {
 // creates a tree where the sibling is black and has a red child
 BCTreeMap<int, string> createDeletionTree3Left() {
     MapNode<int, string>* root = new MapNode<int, string>(30, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(20, "", 1, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(20, "", 1, root, 0, 0);
     root->left = left;
-    MapNode<int, string>* right = new MapNode<int, string>(40, "", 1, root, 0, 0);
+    MapNode<int, string>* right =
+        new MapNode<int, string>(40, "", 1, root, 0, 0);
     root->right = right;
     MapNode<int, string>* ll = new MapNode<int, string>(15, "", 0, left, 0, 0);
     left->left = ll;
@@ -170,9 +187,11 @@ BCTreeMap<int, string> createDeletionTree3Left() {
 // creates a tree where the sibling is black and has a red child
 BCTreeMap<int, string> createDeletionTree3Right() {
     MapNode<int, string>* root = new MapNode<int, string>(30, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(20, "", 1, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(20, "", 1, root, 0, 0);
     root->left = left;
-    MapNode<int, string>* right = new MapNode<int, string>(40, "", 1, root, 0, 0);
+    MapNode<int, string>* right =
+        new MapNode<int, string>(40, "", 1, root, 0, 0);
     root->right = right;
     MapNode<int, string>* rl = new MapNode<int, string>(35, "", 0, right, 0, 0);
     right->left = rl;
@@ -184,13 +203,15 @@ BCTreeMap<int, string> createDeletionTree3Right() {
     return tree;
 }
 
-// creates a tree where the sibling is black and has a red child 
+// creates a tree where the sibling is black and has a red child
 // and a pre rotation must be performed
 BCTreeMap<int, string> createDeletionTree4Left() {
     MapNode<int, string>* root = new MapNode<int, string>(30, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(20, "", 1, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(20, "", 1, root, 0, 0);
     root->left = left;
-    MapNode<int, string>* right = new MapNode<int, string>(40, "", 1, root, 0, 0);
+    MapNode<int, string>* right =
+        new MapNode<int, string>(40, "", 1, root, 0, 0);
     root->right = right;
     MapNode<int, string>* lr = new MapNode<int, string>(25, "", 0, left, 0, 0);
     left->right = lr;
@@ -200,13 +221,15 @@ BCTreeMap<int, string> createDeletionTree4Left() {
     return tree;
 }
 
-// creates a tree where the sibling is black and has a red child 
+// creates a tree where the sibling is black and has a red child
 // and a pre rotation must be performed
 BCTreeMap<int, string> createDeletionTree4Right() {
     MapNode<int, string>* root = new MapNode<int, string>(30, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(20, "", 1, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(20, "", 1, root, 0, 0);
     root->left = left;
-    MapNode<int, string>* right = new MapNode<int, string>(40, "", 1, root, 0, 0);
+    MapNode<int, string>* right =
+        new MapNode<int, string>(40, "", 1, root, 0, 0);
     root->right = right;
     MapNode<int, string>* rl = new MapNode<int, string>(35, "", 0, right, 0, 0);
     right->left = rl;
@@ -216,13 +239,15 @@ BCTreeMap<int, string> createDeletionTree4Right() {
     return tree;
 }
 
-// creates a tree where the sibling is black and its children 
+// creates a tree where the sibling is black and its children
 // are black and the parent is red
 BCTreeMap<int, string> createDeletionTree5() {
     MapNode<int, string>* root = new MapNode<int, string>(50, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(25, "", 0, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(25, "", 0, root, 0, 0);
     root->left = left;
-    MapNode<int, string>* right = new MapNode<int, string>(75, "", 1, root, 0, 0);
+    MapNode<int, string>* right =
+        new MapNode<int, string>(75, "", 1, root, 0, 0);
     root->right = right;
     MapNode<int, string>* ll = new MapNode<int, string>(20, "", 1, left, 0, 0);
     left->left = ll;
@@ -234,17 +259,21 @@ BCTreeMap<int, string> createDeletionTree5() {
     return tree;
 }
 
-// creates a tree where where the sibling is black and its children 
+// creates a tree where where the sibling is black and its children
 // are black and the parent is black
 BCTreeMap<int, string> createDeletionTree6() {
     MapNode<int, string>* root = new MapNode<int, string>(100, "", 1, 0, 0, 0);
-    MapNode<int, string>* right = new MapNode<int, string>(150, "", 1, root, 0, 0);
+    MapNode<int, string>* right =
+        new MapNode<int, string>(150, "", 1, root, 0, 0);
     root->right = right;
-    MapNode<int, string>* rl = new MapNode<int, string>(125, "", 1, right, 0, 0);
+    MapNode<int, string>* rl =
+        new MapNode<int, string>(125, "", 1, right, 0, 0);
     right->left = rl;
-    MapNode<int, string>* rr = new MapNode<int, string>(175, "", 1, right, 0, 0);
+    MapNode<int, string>* rr =
+        new MapNode<int, string>(175, "", 1, right, 0, 0);
     right->right = rr;
-    MapNode<int, string>* left = new MapNode<int, string>(50, "", 0, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(50, "", 0, root, 0, 0);
     root->left = left;
     MapNode<int, string>* ll = new MapNode<int, string>(25, "", 1, left, 0, 0);
     left->left = ll;
@@ -267,9 +296,11 @@ BCTreeMap<int, string> createDeletionTree6() {
 // creates a tree where the sibling is red
 BCTreeMap<int, string> createDeletionTree7Left() {
     MapNode<int, string>* root = new MapNode<int, string>(20, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(10, "", 0, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(10, "", 0, root, 0, 0);
     root->left = left;
-    MapNode<int, string>* right = new MapNode<int, string>(30, "", 1, root, 0, 0);
+    MapNode<int, string>* right =
+        new MapNode<int, string>(30, "", 1, root, 0, 0);
     root->right = right;
     MapNode<int, string>* ll = new MapNode<int, string>(5, "", 1, left, 0, 0);
     left->left = ll;
@@ -284,9 +315,11 @@ BCTreeMap<int, string> createDeletionTree7Left() {
 // creates a tree where the sibling is red
 BCTreeMap<int, string> createDeletionTree7Right() {
     MapNode<int, string>* root = new MapNode<int, string>(20, "", 1, 0, 0, 0);
-    MapNode<int, string>* left = new MapNode<int, string>(10, "", 1, root, 0, 0);
+    MapNode<int, string>* left =
+        new MapNode<int, string>(10, "", 1, root, 0, 0);
     root->left = left;
-    MapNode<int, string>* right = new MapNode<int, string>(30, "", 0, root, 0, 0);
+    MapNode<int, string>* right =
+        new MapNode<int, string>(30, "", 0, root, 0, 0);
     root->right = right;
     MapNode<int, string>* rl = new MapNode<int, string>(25, "", 1, right, 0, 0);
     right->left = rl;

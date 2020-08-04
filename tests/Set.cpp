@@ -1,10 +1,10 @@
-#include "../headers/BCTreeSet.h"
-#include "SetCreation.cpp"
 #include <iostream>
 #include <vector>
 
-using namespace std;
+#include "../headers/BCTreeSet.h"
+#include "SetCreation.cpp"
 
+using namespace std;
 
 // HELPER FUNCTIONS
 
@@ -15,10 +15,14 @@ void display(vector<vector<SetNode<int>*>>& levels) {
             SetNode<int>* curr = levels[i][j];
             cout << "Value:" << curr->value;
             cout << " Color:" << (curr->black ? 'B' : 'R');
-            if (curr->left) cout << " Left:" << curr->left->value;
-            else cout << " Left:NULL";
-            if (curr->right) cout << " Right:" << curr->right->value;
-            else cout << " Right:NULL";
+            if (curr->left)
+                cout << " Left:" << curr->left->value;
+            else
+                cout << " Left:NULL";
+            if (curr->right)
+                cout << " Right:" << curr->right->value;
+            else
+                cout << " Right:NULL";
             cout << "   ";
         }
         cout << "\n";
@@ -27,7 +31,7 @@ void display(vector<vector<SetNode<int>*>>& levels) {
 
 // checks if the tree is valid
 void check(BCTreeSet<int> set) {
-    set.isValid() ? cout << "PASS\n" : cout << "FAIL\n"; 
+    set.isValid() ? cout << "PASS\n" : cout << "FAIL\n";
 }
 
 // tests the various methods of the BCTreeSet to make sure they work properly
@@ -35,17 +39,19 @@ void testMethods(BCTreeSet<int> set) {
     cout << "\nTesting BCTreeSet methods...\n";
     cout << "\nisEmpty();\n" << (set.isEmpty() ? "true\n" : "false\n");
     cout << "size();\n" << set.size() << "\n";
-    cout << "contains(5);  (this should be true)\n" << (set.contains(5) ? "true\n" : "false\n");
-    cout << "contains(1);  (this should be false)\n" << (set.contains(1) ? "true\n" : "false\n");
+    cout << "contains(5);  (this should be true)\n"
+         << (set.contains(5) ? "true\n" : "false\n");
+    cout << "contains(1);  (this should be false)\n"
+         << (set.contains(1) ? "true\n" : "false\n");
 }
-
 
 // TESTING FUNCTIONS
 
 // performs the invalid tests which should all fail
 void performInvalidTreeTests() {
     cout << "\nPerforming invalid tree tests... (these should all fail)\n";
-    cout << "These invalid tree tests are to make sure that the testing methods are able to detect invalid red black trees.\n";
+    cout << "These invalid tree tests are to make sure that the testing "
+            "methods are able to detect invalid red black trees.\n";
     cout << "\nTesting tree with red root... \n";
     BCTreeSet<int> first = createInvalidTree1();
     check(first);
@@ -61,7 +67,7 @@ void performInvalidTreeTests() {
     cout << "\n\nPerforming valid tree tests... (these should all pass)\n";
 }
 
-// tests each insertion case 
+// tests each insertion case
 void performInsertionTests() {
     cout << "\n\nPerforming tests for each insertion case...\n";
     cout << "\nCase where the parent is black...\n";
@@ -76,7 +82,8 @@ void performInsertionTests() {
     BCTreeSet<int> third = createInsertionTree3();
     third.add(-100);
     check(third);
-    cout << "Case where the parent is red and the uncle is black and at least two rotations must be performed...\n";
+    cout << "Case where the parent is red and the uncle is black and at least "
+            "two rotations must be performed...\n";
     BCTreeSet<int> fourth = createInsertionTree3();
     fourth.add(-1);
     check(fourth);
@@ -100,21 +107,24 @@ void performDeletionTests() {
     BCTreeSet<int> thirdRight = createDeletionTree3Right();
     thirdRight.remove(20);
     check(thirdRight);
-    cout << "Cases where the sibling is black and has a red child and a pre rotation must be performed...\n";
+    cout << "Cases where the sibling is black and has a red child and a pre "
+            "rotation must be performed...\n";
     BCTreeSet<int> fourthLeft = createDeletionTree4Left();
     fourthLeft.remove(40);
     check(fourthLeft);
     BCTreeSet<int> fourthRight = createDeletionTree4Right();
     fourthRight.remove(20);
     check(fourthRight);
-    cout << "Cases where the sibling is black and its children are black and the parent is red...\n";
+    cout << "Cases where the sibling is black and its children are black and "
+            "the parent is red...\n";
     BCTreeSet<int> fifthLeft = createDeletionTree5();
     fifthLeft.remove(20);
     check(fifthLeft);
     BCTreeSet<int> fifthRight = createDeletionTree5();
     fifthRight.remove(30);
     check(fifthRight);
-    cout << "Cases where the sibling is black and its children are black and the parent is black...\n";
+    cout << "Cases where the sibling is black and its children are black and "
+            "the parent is black...\n";
     BCTreeSet<int> sixthLeft = createDeletionTree6();
     sixthLeft.remove(74);
     check(sixthLeft);
@@ -130,7 +140,7 @@ void performDeletionTests() {
     check(seventhRight);
 }
 
-// builds a tree and then deletes every node, checking to make sure the 
+// builds a tree and then deletes every node, checking to make sure the
 // tree is valid after every operation
 void performValidTreeTest() {
     cout << "\n\nBuilding and deleting every node of a tree...\n";
@@ -148,7 +158,7 @@ void performValidTreeTest() {
     valid.add(8);
     check(valid);
     valid.add(9);
-    check(valid); 
+    check(valid);
     valid.add(10);
     check(valid);
     valid.add(11);
@@ -190,7 +200,6 @@ void performValidTreeTest() {
     check(valid);
     cout << "\nThe BCTreeSet is now empty.\n\n";
 }
-
 
 int main() {
     performInvalidTreeTests();

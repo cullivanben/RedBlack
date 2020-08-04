@@ -1,11 +1,11 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
 #include "../headers/BCTreeMap.h"
 #include "MapCreation.cpp"
-#include <iostream>
-#include <vector>
-#include <string>
 
 using namespace std;
-
 
 // HELPER FUNCTIONS
 
@@ -17,11 +17,15 @@ void displayStr(vector<vector<MapNode<string, int>*>>& levels) {
             cout << "Key:" << curr->key;
             cout << " Value:" << curr->value;
             cout << " Color:" << (curr->black ? 'B' : 'R');
-            if (curr->left) cout << " Left:" << curr->left->key;
-            else cout << " Left:NULL";
-            if (curr->right) cout << " Right:" << curr->right->key;
-            else cout << " Right:NULL";
-            cout << "   "; 
+            if (curr->left)
+                cout << " Left:" << curr->left->key;
+            else
+                cout << " Left:NULL";
+            if (curr->right)
+                cout << " Right:" << curr->right->key;
+            else
+                cout << " Right:NULL";
+            cout << "   ";
         }
         cout << "\n";
     }
@@ -42,17 +46,19 @@ void testMethods(BCTreeMap<string, int> map) {
     cout << "\nTesting BCTreeMap methods...\n";
     cout << "\nisEmpty();\n" << (map.isEmpty() ? "true\n" : "false\n");
     cout << "size();\n" << map.size() << "\n";
-    cout << "containsKey(\"a\");  (this should be true)\n" << (map.containsKey("a") ? "true\n" : "false\n");
-    cout << "containsKey(\"x\");  (this should be false)\n" << (map.containsKey("x") ? "true\n" : "false\n");
+    cout << "containsKey(\"a\");  (this should be true)\n"
+         << (map.containsKey("a") ? "true\n" : "false\n");
+    cout << "containsKey(\"x\");  (this should be false)\n"
+         << (map.containsKey("x") ? "true\n" : "false\n");
 }
-
 
 // TESTING FUNCTIONS
 
 // perfroms the invalid tree tests which should all fail
 void performInvalidTreeTests() {
     cout << "\nPerforming invalid tree tests... (these should all fail)\n";
-    cout << "These invalid tree tests are to make sure that the testing methods are able to detect invalid red black trees.\n";
+    cout << "These invalid tree tests are to make sure that the testing "
+            "methods are able to detect invalid red black trees.\n";
     cout << "\nTesting tree with red root... \n";
     BCTreeMap<int, string> first = createInvalidTree1();
     check(first);
@@ -83,7 +89,8 @@ void performInsertionTests() {
     BCTreeMap<int, string> third = createInsertionTree3();
     third.put(-100, "");
     check(third);
-    cout << "Case where the parent is red and the uncle is black and at least two rotations must be performed...\n";
+    cout << "Case where the parent is red and the uncle is black and at least "
+            "two rotations must be performed...\n";
     BCTreeMap<int, string> fourth = createInsertionTree3();
     fourth.put(-1, "");
     check(fourth);
@@ -107,21 +114,24 @@ void performDeletionTests() {
     BCTreeMap<int, string> thirdRight = createDeletionTree3Right();
     thirdRight.remove(20);
     check(thirdRight);
-    cout << "Cases where the sibling is black and has a red child and a pre rotation must be performed...\n";
+    cout << "Cases where the sibling is black and has a red child and a pre "
+            "rotation must be performed...\n";
     BCTreeMap<int, string> fourthLeft = createDeletionTree4Left();
     fourthLeft.remove(40);
     check(fourthLeft);
     BCTreeMap<int, string> fourthRight = createDeletionTree4Right();
     fourthRight.remove(20);
     check(fourthRight);
-    cout << "Cases where the sibling is black and its children are black and the parent is red...\n";
+    cout << "Cases where the sibling is black and its children are black and "
+            "the parent is red...\n";
     BCTreeMap<int, string> fifthLeft = createDeletionTree5();
     fifthLeft.remove(20);
     check(fifthLeft);
     BCTreeMap<int, string> fifthRight = createDeletionTree5();
     fifthRight.remove(30);
     check(fifthRight);
-    cout << "Cases where the sibling is black and its children are black and the parent is black...\n";
+    cout << "Cases where the sibling is black and its children are black and "
+            "the parent is black...\n";
     BCTreeMap<int, string> sixthLeft = createDeletionTree6();
     sixthLeft.remove(74);
     check(sixthLeft);
@@ -137,7 +147,7 @@ void performDeletionTests() {
     check(seventhRight);
 }
 
-// builds a tree and then deletes every node, checking to make sure the 
+// builds a tree and then deletes every node, checking to make sure the
 // tree is valid after every operation
 void performValidTreeTest() {
     cout << "\n\nBuilding and deleting every node of a tree...\n";
@@ -199,9 +209,8 @@ void performValidTreeTest() {
     checkStr(valid);
     valid.remove("z");
     checkStr(valid);
-    cout <<"\nThe BCTreeMap is now empty.\n\n";
+    cout << "\nThe BCTreeMap is now empty.\n\n";
 }
-
 
 int main() {
     performInvalidTreeTests();

@@ -1,6 +1,5 @@
 #include "../headers/BCTreeSet.h"
 
-
 // INVALID TREES
 
 // creates a tree that is invalid because it has a red root
@@ -52,7 +51,7 @@ BCTreeSet<int> createInvalidTree3() {
     BCTreeSet<int> invalid;
     invalid.setRootForTest(root);
     return invalid;
-}   
+}
 
 // creates a tree that is invalid because it is not a valid BST
 BCTreeSet<int> createInvalidTree4() {
@@ -73,7 +72,6 @@ BCTreeSet<int> createInvalidTree4() {
     return invalid;
 }
 
-
 // INSERTION TREES
 
 // creates a tree that will have a red node inserted to a black parent
@@ -85,7 +83,7 @@ BCTreeSet<int> createInsertionTree1() {
     return tree;
 }
 
-// creates a tree that will have a node inserted to a parent and 
+// creates a tree that will have a node inserted to a parent and
 // uncle that are both red
 BCTreeSet<int> createInsertionTree2() {
     SetNode<int>* root = new SetNode<int>(0, 1, 0, 0, 0);
@@ -101,7 +99,7 @@ BCTreeSet<int> createInsertionTree2() {
     rr->left = rrl;
     SetNode<int>* rrr = new SetNode<int>(7, 0, rr, 0, 0);
     rr->right = rrr;
-    // create the set 
+    // create the set
     BCTreeSet<int> tree;
     tree.setRootForTest(root);
     return tree;
@@ -117,7 +115,6 @@ BCTreeSet<int> createInsertionTree3() {
     tree.setRootForTest(root);
     return tree;
 }
-
 
 // DELETION TREES
 
@@ -181,7 +178,7 @@ BCTreeSet<int> createDeletionTree3Right() {
     return tree;
 }
 
-// creates a tree where the sibling is black and has a red child 
+// creates a tree where the sibling is black and has a red child
 // and a pre rotation must be performed
 BCTreeSet<int> createDeletionTree4Left() {
     SetNode<int>* root = new SetNode<int>(30, 1, 0, 0, 0);
@@ -197,7 +194,7 @@ BCTreeSet<int> createDeletionTree4Left() {
     return tree;
 }
 
-// creates a tree where the sibling is black and has a red child 
+// creates a tree where the sibling is black and has a red child
 // and a pre rotation must be performed
 BCTreeSet<int> createDeletionTree4Right() {
     SetNode<int>* root = new SetNode<int>(30, 1, 0, 0, 0);
@@ -213,7 +210,7 @@ BCTreeSet<int> createDeletionTree4Right() {
     return tree;
 }
 
-// creates a tree where the sibling is black and its children 
+// creates a tree where the sibling is black and its children
 // are black and the parent is red
 BCTreeSet<int> createDeletionTree5() {
     SetNode<int>* root = new SetNode<int>(50, 1, 0, 0, 0);
@@ -231,7 +228,7 @@ BCTreeSet<int> createDeletionTree5() {
     return tree;
 }
 
-// creates a tree where where the sibling is black and its children 
+// creates a tree where where the sibling is black and its children
 // are black and the parent is black
 BCTreeSet<int> createDeletionTree6() {
     SetNode<int>* root = new SetNode<int>(100, 1, 0, 0, 0);
